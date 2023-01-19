@@ -1,6 +1,12 @@
-@import './common';
-@import './example';
+@import './utils/variables';
+@import './utils/mixins';
 
-@import './reset';
-@import './root-vars';
-@import './mixins';
+@import './base/common';
+@import './base/reset';
+@import './base/container';
+
+@import './layout/header-home';
+@import './layout/header-library';
+@import './layout/gallery';
+@import './layout/footer';
+@import './layout/modal';
