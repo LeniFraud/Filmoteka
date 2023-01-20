@@ -1,6 +1,7 @@
 'use strict';
 
 import axios from 'axios';
+import Notiflix from 'notiflix';
 
 export default class TheMovieAPI {
 
@@ -26,10 +27,10 @@ export default class TheMovieAPI {
                 page: this.page,
             }
         };
-        const responce = await axios.get
+        const response = await axios.get
             (`${TheMovieAPI.BASE_URL}${TheMovieAPI.TRENDING_URL}`,
                 searchParams);
-        return responce.data;
+        return response.data;
     }
 
     // колекція по пошуку за ключовим словом
@@ -42,10 +43,28 @@ export default class TheMovieAPI {
                 query: this.inputValue,
             }
         }
-        const responce = await axios.get
+        const response = await axios.get
             (`${TheMovieAPI.BASE_URL}${TheMovieAPI.SEARCH}`,
                 searchParams);
-        return responce.data;
+        return response.data;
+    }
+
+    // отримання movieId
+    // const movieID = await getMovieID('Matrix');
+    // console.log(movieID);
+    async getMovieID(title) {
+        const searchParams = {
+            params: {
+                api_key: TheMovieAPI.API_KEY,
+                query: title,
+            }
+        };
+        const response = await axios.get(`${TheMovieAPI.BASE_URL}${TheMovieAPI.SEARCH}`, searchParams);
+        if (response.data.results.length > 0) {
+            return response.data.results[0].id;
+        } else {
+            return Notiflix.Notify.failure('No Results Found')
+        }
     }
 
     // повна інформація про фільм
@@ -58,10 +77,10 @@ export default class TheMovieAPI {
                 api_key: TheMovieAPI.API_KEY,
             }
         };
-        const responce = await axios.get
+        const response = await axios.get
             (`${TheMovieAPI.BASE_URL}movie/${this.movieId}`,
                 searchParams);
-        return responce;
+        return response;
     }
 
     // трейлер до фільму
@@ -71,10 +90,10 @@ export default class TheMovieAPI {
                 api_key: TheMovieAPI.API_KEY,
             }
         };
-        const responce = await axios.get
+        const response = await axios.get
             (`${TheMovieAPI.BASE_URL}movie/${this.movieId}/videos`,
                 searchParams);
-        return responce;
+        return response;
     }
 
     // Запит на АРІ за жанрами
