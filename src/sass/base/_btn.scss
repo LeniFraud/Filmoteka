@@ -1,0 +1,25 @@
+button {
+  @include flex();
+  height: 44px;
+  width: 130px;
+
+  font-size: var(--text-size);
+  line-height: 1.33;
+  text-transform: uppercase;
+
+  background-color: transparent;
+  border: 1px solid var(--basic-text-color);
+  border-radius: 5px;
+
+  &.active {
+    background-color: var(--accent-color);
+    border-color: transparent;
+  }
+
+  @include tablet {
+    width: 148px;
+  }
+  @include desktop {
+    width: 148px;
+  }
+}
