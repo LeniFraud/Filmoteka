@@ -1,0 +1,48 @@
+.header-library {
+  height: 230px;
+  background-color: #000;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-image: linear-gradient(#00000056, #00000056),
+    url(../../src/images/header-lb-bg-1xmobile-min.jpg);
+
+  @include retina {
+    background-image: linear-gradient(#00000056, #00000056),
+      url(../../src/images/header-lb-bg-2xmobile-min.jpg);
+  }
+
+  @include tablet {
+    height: 216px;
+    background-image: linear-gradient(#00000056, #00000056),
+      url(../../src/images/header-lb-bg-1xtablet-min.jpg);
+    @include retina {
+      background-image: linear-gradient(#00000056, #00000056),
+        url(../../src/images/header-lb-bg-2xtablet-min.jpg);
+    }
+  }
+
+  @include desktop {
+    background-image: linear-gradient(#00000056, #00000056),
+      url(../../src/images/header-lb-bg-1xdecktop-min.jpg);
+    @include retina {
+      background-image: linear-gradient(#00000056, #00000056),
+        url(../../src/images/header-lb-bg-2xdecktop-min.jpg);
+    }
+  }
+}
+
+.header__filter {
+  @include flex();
+  gap: 20px;
+  margin-top: 60px;
+
+  @include tablet {
+    margin-top: 40px;
+  }
+}
+
+.button-library {
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
