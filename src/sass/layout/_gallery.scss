@@ -1,10 +1,9 @@
 .gallery {
-    max-width: 1280px;
-    margin: 0 auto;
+  max-width: 1280px;
+  margin: 0 auto;
   padding-top: 20px;
   padding-bottom: 40px;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   row-gap: 20px;
   column-gap: 20px;
@@ -17,15 +16,23 @@
   }
 
   @include desktop {
-    row-gap: 32px;
+    row-gap: 16px;
     column-gap: 16px;
- 
   }
 }
 
 .movie-card {
   display: flex;
   flex-direction: column;
+  padding-bottom: 16px;
+  transition-duration: var(--time);
+  transition-timing-function: var(--function);
+
+  &:hover {
+    border-radius: 5px;
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .movie-image-container {
