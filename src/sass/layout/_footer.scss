@@ -5,10 +5,6 @@
 }
 
 .footer__text {
-  //   display: flex;
-  //   flex-direction: column;
-  //   align-items: center;
-  //   gap: 10px;
   font-weight: 400;
   font-size: 14px;
   line-height: calc(16 / 14);
@@ -27,7 +23,6 @@
 }
 
 .footer__icon {
-  //   display: block;
   width: 14px;
   height: 13px;
   margin-right: 10px;
@@ -64,19 +59,18 @@
 
 .footer-modal {
   position: relative;
-  padding: 20px;
+  padding: 40px 20px;
   text-align: center;
   background-color: #ffffff;
-  //   border-radius: 10px;
   opacity: 1;
   transform: scale(1);
   transition: opacity var(--time) var(--function),
     transform var(--time) var(--function);
 
-  //   @include adaptive(tab-min) {
-  //     max-width: 568px;
-  //     margin: 0 auto;
-  //   }
+  @include mobile {
+    max-width: 480px;
+    margin: 0 auto;
+  }
 
   //   @include adaptive(desk) {
   //     position: absolute;
@@ -121,4 +115,70 @@
   //   @include adaptive(tab-min) {
   //     @include sizes(24px, 24px);
   //   }
+}
+
+.team__title {
+  margin-bottom: 20px;
+}
+
+.team__list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  @include mobile {
+    flex-direction: unset;
+    gap: 20px;
+    flex-basis: calc((100% - 10px) / 2);
+  }
+}
+
+.team__card {
+  padding-top: 8px;
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+
+  @include mobile {
+    min-width: 210px;
+  }
+}
+
+.team__wrap {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.team__photo {
+  width: auto;
+  //   height: 100%;
+  margin: 0 auto;
+}
+
+.team__info {
+  margin-top: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #eeeeee;
+  border-radius: 0 0 10px 10px;
+}
+
+.team__link {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 20px;
+  transition: color var(--time) var(--function);
+
+  &:hover,
+  :focus {
+    color: var(--accent-color);
+  }
+}
+
+.team__text {
+  font-size: 14px;
+  color: #545454;
 }
