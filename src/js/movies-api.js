@@ -1,56 +1,93 @@
+'use strict';
+
 import axios from 'axios';
 
-const API_KEY = 'api_key=cf0ab519f45eea0dacef149b4aa4a796';
-const BASE_URL = 'https://api.themoviedb.org/3/';
-const TRENDING_URL = 'trending/movie/week?';
-const SEARCH = `search/movie?`;
-const GENRES_LIST = `genre/movie/list?`;
-
 export default class TheMovieAPI {
+
+    static BASE_URL = 'https://api.themoviedb.org/3/';
+    static API_KEY = 'cf0ab519f45eea0dacef149b4aa4a796';
+    static TRENDING_URL = 'trending/movie/week';
+    static SEARCH = `search/movie`;
+    static GENRES_LIST = `genre/movie/list`;
+
+
     constructor() {
-        this.inputValue = ' ';
+        this.inputValue = null;
         this.page = 1;
         this.genresId = null;
+        this.movieId = null;
     }
 
     // колекція популярних фільмів
     async fetchTrendingFilms() {
-        const responce = await axios.get(
-            `${BASE_URL}${TRENDING_URL}${API_KEY}&page=${this.page}`
-        );
-        // this.incrementPage();
+        const searchParams = {
+            params: {
+                api_key: TheMovieAPI.API_KEY,
+                page: this.page,
+            }
+        };
+        const responce = await axios.get
+            (`${TheMovieAPI.BASE_URL}${TheMovieAPI.TRENDING_URL}`,
+                searchParams);
         return responce.data;
     }
 
     // колекція по пошуку за ключовим словом
     async fetchSearchFilms() {
-        const responce = await axios.get(
-            `${BASE_URL}${SEARCH}${API_KEY}&page=${this.page}&include_adult=false&query=${this.inputValue}`
-        );
-        // this.incrementPage();
-        return responce.data;
-    }
-    async searchGanreFilms() {
-        const responce = await axios.get(
-            `${BASE_URL}discover/movie?${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&with_watch_monetization_types=flatrate&include_video=false&with_genres=${this.genresId}&page=${this.page}`
-        );
+        const searchParams = {
+            params: {
+                api_key: TheMovieAPI.API_KEY,
+                page: this.page,
+                include_adult: false,
+                query: this.inputValue,
+            }
+        }
+        const responce = await axios.get
+            (`${TheMovieAPI.BASE_URL}${TheMovieAPI.SEARCH}`,
+                searchParams);
         return responce.data;
     }
 
     // повна інформація про фільм
+    // приклад movieId - число;
+    // newApiServiсe.movieId = 94671;
+    // console.log(newApiServiсe.fetchOneFilm());
     async fetchOneFilm() {
-        const responce = await axios.get(
-            `${BASE_URL}movie/${this.movieId}?${API_KEY}`
-        );
+        const searchParams = {
+            params: {
+                api_key: TheMovieAPI.API_KEY,
+            }
+        };
+        const responce = await axios.get
+            (`${TheMovieAPI.BASE_URL}movie/${this.movieId}`,
+                searchParams);
         return responce;
     }
 
     // трейлер до фільму
     async fetchTrailerFilm() {
-        const responce = await axios.get(
-            `${BASE_URL}movie/${this.movieId}/videos?${API_KEY}`
-        );
+        const searchParams = {
+            params: {
+                api_key: TheMovieAPI.API_KEY,
+            }
+        };
+        const responce = await axios.get
+            (`${TheMovieAPI.BASE_URL}movie/${this.movieId}/videos`,
+                searchParams);
         return responce;
+    }
+
+    // Запит на АРІ за жанрами
+    async getGenres() {
+        const searchParams = {
+            params: {
+                api_key: TheMovieAPI.API_KEY,
+            }
+        };
+        const response = await axios.get
+            (`${TheMovieAPI.BASE_URL}${TheMovieAPI.GENRES_LIST}`,
+                searchParams);
+        return response.data.genres; // Повертає проміс із жанрами
     }
 
     //   повертає обєкт з масивом жанрів, масивом фильмів, total_pages, total_results
@@ -65,65 +102,28 @@ export default class TheMovieAPI {
         const { results, total_pages, total_results } = data;
         return { genres, results, total_pages, total_results };
     }
-
-    // getGenres використовується для отримання списку жанрів, 
-    // які можна використовувати для відфільтрування списку фільмів. 
-    // А повернені дані можна використовувати для відображення жанрів 
-    // та надання користувачам можливості фільтрувати фільми за їхніми жанрами.
-
-    async getGenres() {
-        const url = `${BASE_URL}${GENRES_LIST}${API_KEY}`; //
-        const response = await axios.get(url); // Запит на АРІ за жанрами
-        return response.data.genres; // Повертає проміс із жанрами
-    }
-
-    incrementPage() {
-        this.page += 1;
-    }
-
-    resetPage() {
-        this.page = 1;
-    }
-
-    get value() {
-        return this.inputValue;
-    }
-
-    set value(newInputValue) {
-        this.inputValue = newInputValue;
-    }
-
-    get currentPage() {
-        return this.page;
-    }
-
-    set currentPage(newPage) {
-        this.page = newPage;
-    }
 }
 
 // Імпортуємо
 // import TheMovieAPI from './js/movies-api';
 
-// const newApiServiсe = new TheMovieAPI();
+// const theMovieAPI = new TheMovieAPI();
 
 // колекція популярних фільмів
-// console.log(newApiServiсe.fetchTrendingFilms());
+// console.log(theMovieAPI.fetchTrendingFilms());
 
 // колекція по ключевому слову
-// newApiServiсe.value = e.target.searchQuery.value.trim();
-// newApiServiсe.value = 'dog'
-// console.log(newApiServiсe.fetchSearchFilms());
+// theMovieAPI.inputValue = e.target.....value.trim();
+// theMovieAPI.inputValue = 'avatar'
+// console.log(theMovieAPI.fetchSearchFilms());
 
 // повна інформація про фільм
-// приклад movieId - число;
-// newApiServiсe.movieId = 94671;
-// console.log(newApiServiсe.fetchOneFilm());
+// theMovieAPI.movieId = 94671;
+// console.log(theMovieAPI.fetchOneFilm());
 
 // трейлер до фільму
-// приклад movieId - число;
-// newApiServiсe.movieId = 94671;
-// console.log(newApiServiсe.fetchTrailerFilm());
+// theMovieAPI.movieId = 94671;
+// console.log(theMovieAPI.fetchTrailerFilm());
 
 // повертає обєкт з масивом жанрів, масивом фильмів, total_pages, total_results
-// newApiServiсe.dataMovies().then(data => console.log(data));
+// theMovieAPI.dataMovies().then(data => console.log(data));
