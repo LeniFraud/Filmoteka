@@ -3,22 +3,32 @@
     @content;
   }
 }
+
+@mixin mobile-only {
+  @media screen and (max-width: 767px) {
+    @content;
+  }
+}
+
 @mixin tablet {
   @media screen and (min-width: 768px) {
     @content;
   }
 }
+
 @mixin desktop {
   @media screen and (min-width: 1280px) {
     @content;
   }
 }
+
 @mixin flex($justify-content: center, $align-items: center) {
   display: flex;
   justify-content: $justify-content;
   align-items: $align-items;
   flex-wrap: wrap;
 }
+
 @mixin retina {
   @media (min-device-pixel-ratio: 2),
     (min-resolution: 192dpi),
