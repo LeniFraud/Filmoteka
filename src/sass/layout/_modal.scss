@@ -5,7 +5,6 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.25);
-  transition: opacity 250ms linear, visibility 300ms linear;
   &.is-hidden {
     opacity: 0;
     pointer-events: none;
@@ -17,13 +16,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 280px;
+  width: 280px;
   background-color: #ffffff;
-  transform: translate(-50% -50%), scale(1);
-  transition: transform 1000ms linear;
-  .backdrop.is-hidden & {
-    transform: translate(-50% -50%), scale(0);
-  }
   @media screen and (min-width: 480px) {
     min-width: 704px;
   }
@@ -62,6 +56,85 @@
 }
 
 .modal__poster {
-  min-width: 240px;
-  min-height: 357px;
+  width: 240px;
+  height: 357px;
+}
+
+.modal__poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal__description {
+  margin-top: 20px;
+}
+
+.modal__title {
+  text-transform: uppercase;
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.modal__info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.modal__info-item {
+  display: flex;
+  color: #8c8c8c;
+}
+
+.modal__characteristic {
+  flex-shrink: 0;
+}
+
+.modal__value {
+  color: #000000;
+}
+
+.votes {
+  margin-left: 41px;
+}
+
+.popularity {
+  margin-left: 53px;
+}
+
+.original {
+  margin-left: 39px;
+  text-transform: uppercase;
+}
+
+.genre {
+  margin-left: 76px;
+}
+
+.modal__grade-accent {
+  padding: 1px 10px;
+  border-radius: 5px;
+  color: #ffffff;
+  background-color: #ff6b01;
+}
+
+.modal__grade-usual {
+  padding: 1px 10px;
+  border-radius: 5px;
+  color: #000000;
+  background-color: #f7f7f7;
+}
+
+.modal__about {
+  margin-top: 20px;
+}
+
+.modal__about-description {
+  margin-top: 8px;
+}
+
+.modal__buttons {
+  margin-top: 20px;
 }
