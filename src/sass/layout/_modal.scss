@@ -55,6 +55,13 @@
   fill: #000000;
 }
 
+// для розмітки через скрипт
+.modal-wrap {
+  @include tablet {
+    display: flex;
+  }
+}
+
 .modal__poster {
   flex-shrink: 0;
   width: 240px;
