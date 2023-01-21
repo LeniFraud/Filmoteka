@@ -48,20 +48,24 @@
   border-radius: 5px;
   margin-bottom: 8px;
   overflow: hidden;
-  // max-width: 280px;
-  // max-height: 398px;
+  width: 280px;
+  height: 398px;
 
-  // @include tablet {
-  //   max-width: 336px;
-  //   max-height: 455px;
-  // }
+  @include tablet {
+    width: 336px;
+    height: 455px;
+  }
 
-  // @include desktop {
-  //   max-width: 395px;
-  //   max-height: 574px;
-  // }
+  @include desktop {
+    width: 394px;
+    height: 574px;
+  }
 }
-
+.movie-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .movie-title {
   font-size: var(--text-size);
   line-height: calc(16 / 12);
