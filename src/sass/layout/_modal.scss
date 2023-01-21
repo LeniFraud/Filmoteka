@@ -1,6 +1,7 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
+  display: flex;
   padding: 20px;
   overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.25);
@@ -11,9 +12,9 @@
 }
 
 .modal {
-  margin: auto;
   position: relative;
   max-width: 280px;
+  margin: auto;
   padding: 48px 20px 40px 20px;
   background-color: #ffffff;
   @media (min-width: 768px) {
