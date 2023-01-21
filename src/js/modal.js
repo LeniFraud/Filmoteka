@@ -11,7 +11,6 @@ import TheMovieAPI from './movies-api';
   };
 
   refs.container.addEventListener('click', getModalData);
-
   refs.openModalBtn.addEventListener('click', toggleModal);
   refs.closeModalBtn.addEventListener('click', toggleModal);
 
@@ -19,12 +18,10 @@ import TheMovieAPI from './movies-api';
     refs.modal.classList.toggle('is-hidden');
   }
 
-  function getModalData(event) {
+  async function getModalData(event) {
     const movieTitle =
       event.currentTarget.querySelector('.movie-title').textContent;
-    const movieID = TheMovieAPI.getMovieID(movieTitle).then(
-      response => response.json
-    );
+    const movieID = await getMovieID(movieTitle);
     console.log(movieID);
   }
 })();
