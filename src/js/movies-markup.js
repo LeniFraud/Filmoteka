@@ -1,25 +1,26 @@
 import TheMovieAPI from './movies-api';
-
+import { createMarkup, makeGenresList } from './cards-markup';
 
 const container = document.querySelector('.gallery');
 const theMovieAPI = new TheMovieAPI();
 
 async function getData() {
-    try{
-        const movieInfo = await theMovieAPI.fetchTrendingFilms();
-        const genres = await theMovieAPI.getGenres();
-        movieInfo.results.forEach(film => {
-            film.genre_names = film.genre_ids.map(filmId => genres.find(({id}) => id === filmId)).map(({name}) => name);
-        })        
-        container.innerHTML = createMarkup(movieInfo.results);
-        
-    }
-    catch(error){
-        console.log(error);
-    }
+  try {
+    const movieInfo = await theMovieAPI.fetchTrendingFilms();
+    const genres = await theMovieAPI.getGenres();
+    movieInfo.results.forEach(film => {
+      film.genre_names = film.genre_ids
+        .map(filmId => genres.find(({ id }) => id === filmId))
+        .map(({ name }) => name);
+    });
+    container.innerHTML = createMarkup(movieInfo.results);
+  } catch (error) {
+    console.log(error);
+  }
 }
 getData();
 
+/*
  function createMarkup(array) {
     const BASE_URL_FOR_IMAGES = 'https://image.tmdb.org/t/p/w500';
     return array.map(el => 
@@ -45,3 +46,4 @@ function makeGenresList (el) {
         `<span class="movie-other">Other </span>` : el.genre_names[0]}
     </div>`
 }
+*/

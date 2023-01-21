@@ -51,15 +51,15 @@
   // max-width: 280px;
   // max-height: 398px;
 
-  // @include tablet {
-  //   max-width: 336px;
-  //   max-height: 455px;
-  // }
+  @include tablet {
+    max-width: 336px;
+    max-height: 455px;
+  }
 
-  // @include desktop {
-  //   max-width: 395px;
-  //   max-height: 574px;
-  // }
+  @include desktop {
+    max-width: 395px;
+    max-height: 574px;
+  }
 }
 
 .movie-title {

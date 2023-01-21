@@ -4,6 +4,12 @@
   background-color: #f7f7f7;
 }
 
+.footer__container {
+  @include tablet {
+    @include flex(center, baseline);
+  }
+}
+
 .footer__text {
   font-weight: 400;
   font-size: 14px;
@@ -12,13 +18,22 @@
   color: #545454;
 
   &--top {
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
+
+    @include tablet {
+      margin: 0 4px 0 0;
+    }
   }
 
   &--bottom {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  @include tablet {
+    font-size: 16px;
+    line-height: calc(19 / 16);
   }
 }
 
@@ -31,7 +46,7 @@
 }
 
 .footer__team {
-  margin-left: 5px;
+  margin-left: 4px;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -49,6 +64,10 @@
   background-color: rgba(0, 0, 0, 0.25);
   transition: opacity var(--time) var(--function),
     visibility var(--time) var(--function);
+
+  @include tablet {
+    padding: 60px 32px 32px;
+  }
 }
 
 .is-closed {
@@ -68,26 +87,30 @@
     transform var(--time) var(--function);
 
   @include mobile {
-    max-width: 480px;
+    max-width: 440px;
     margin: 0 auto;
   }
 
-  //   @include adaptive(desk) {
-  //     position: absolute;
-  //     top: 50%;
-  //     left: 50%;
-  //     padding: 32px;
-  //     transform: translate(-50%, -50%) scale(1);
-  //   }
+  @include tablet {
+    max-width: 704px;
+  }
 
-  //   .is-closed & {
-  //     opacity: 0;
-  //     transform: scale(1.2);
+  @include desktop {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 850px;
+    transform: translate(-50%, -50%) scale(1);
+  }
 
-  //     @include adaptive(desk) {
-  //       transform: translate(-50%, -50%) scale(1.2);
-  //     }
-  //   }
+  .is-closed & {
+    opacity: 0;
+    transform: scale(1.2);
+
+    @include desktop {
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+  }
 }
 
 .footer-modal__btn {
@@ -130,7 +153,6 @@
   @include mobile {
     flex-direction: unset;
     gap: 20px;
-    flex-basis: calc((100% - 10px) / 2);
   }
 }
 
@@ -140,7 +162,11 @@
   border-radius: 10px;
 
   @include mobile {
-    min-width: 210px;
+    flex-basis: calc((100% - 20px) / 2);
+  }
+
+  @include tablet {
+    flex-basis: calc((100% - 2 * 20px) / 3);
   }
 }
 
