@@ -6,3 +6,4 @@ import './js/local-storage';
 import './js/pagination';
 import './js/modal';
 import './js/footer-modal';
+import './js/get-movie';
