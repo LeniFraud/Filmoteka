@@ -74,14 +74,15 @@ export default class TheMovieAPI {
   // приклад movieId - число;
   // newApiServiсe.movieId = 94671;
   // console.log(newApiServiсe.fetchOneFilm());
-  async fetchOneFilm() {
+  async fetchOneFilm(movieId) {
     const searchParams = {
       params: {
         api_key: TheMovieAPI.API_KEY,
       },
     };
+
     const response = await axios.get(
-      `${TheMovieAPI.BASE_URL}movie/${this.movieId}`,
+      `${TheMovieAPI.BASE_URL}movie/${movieId}`,
       searchParams
     );
     return response;

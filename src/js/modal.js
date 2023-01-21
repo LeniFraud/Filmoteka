@@ -1,5 +1,3 @@
-import axios from 'axios';
-import Notiflix from 'notiflix';
 import TheMovieAPI from './movies-api';
 
 (() => {
@@ -23,12 +21,14 @@ import TheMovieAPI from './movies-api';
   async function getModalData(event) {
     const movieCard = event.target.closest('.movie-card');
     const movieTitle = movieCard.querySelector('.movie-title').textContent;
-    const movieID = await theMovieAPI.getMovieID(movieTitle);
-    theMovieAPI.movieID = movieID;
 
-    const movieData = await theMovieAPI
-      .fetchOneFilm()
-      .then(response => response.json())
-      .catch(error => console.log(error));
+    try {
+      const movieID = await theMovieAPI.getMovieID(movieTitle);
+      const movieData = await theMovieAPI.fetchOneFilm(movieID);
+      console.log(movieData);
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 })();
