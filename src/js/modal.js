@@ -3,6 +3,8 @@ import Notiflix from 'notiflix';
 import TheMovieAPI from './movies-api';
 
 (() => {
+  const theMovieAPI = new TheMovieAPI();
+
   const refs = {
     openModalBtn: document.querySelector('[data-modal-open]'),
     closeModalBtn: document.querySelector('[data-modal-close]'),
@@ -19,9 +21,14 @@ import TheMovieAPI from './movies-api';
   }
 
   async function getModalData(event) {
-    const movieTitle =
-      event.currentTarget.querySelector('.movie-title').textContent;
-    const movieID = await getMovieID(movieTitle);
-    console.log(movieID);
+    const movieCard = event.target.closest('.movie-card');
+    const movieTitle = movieCard.querySelector('.movie-title').textContent;
+    const movieID = await theMovieAPI.getMovieID(movieTitle);
+    theMovieAPI.movieID = movieID;
+
+    const movieData = await theMovieAPI
+      .fetchOneFilm()
+      .then(response => response.json())
+      .catch(error => console.log(error));
   }
 })();
