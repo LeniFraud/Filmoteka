@@ -2,9 +2,9 @@ import TheMovieAPI from './movies-api';
 import { createMarkup, makeGenresList } from './cards-markup';
 
 const container = document.querySelector('.gallery');
-const theMovieAPI = new TheMovieAPI();
+export const theMovieAPI = new TheMovieAPI();
 
-async function getData() {
+export async function getData() {
   try {
     const movieInfo = await theMovieAPI.fetchTrendingFilms();
     const genres = await theMovieAPI.getGenres();
