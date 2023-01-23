@@ -1,23 +1,62 @@
 import TheMovieAPI from './movies-api';
 
+const theMovieAPI = new TheMovieAPI();
 const backdrop = document.querySelector('.backdrop-trailer');
 const modal = document.querySelector('.trailer-modal');
 const btnTrailer = document.querySelector('.trailer-btn');
 const loader = document.querySelector('.loader');
 
 btnTrailer.addEventListener('click', onTrailerBtnClick);
-backdrop.addEventListener('click', onCloseModalBtnClick);
 
-function onTrailerBtnClick(e) {
-    
-  const movieId = getMovieId(e.target);
+
+
+
+function onTrailerBtnClick(event) {  
+  const movieId = getMovieId(event.target);
   modal.classList.remove('is-hidden');
   backdrop.classList.remove('is-hidden');
 
   getData(movieId);
+  window.addEventListener('keydown', onKeyClick);
+  backdrop.addEventListener('click', onBackdropClick);
 }
 
-const theMovieAPI = new TheMovieAPI();
+function onBackdropClick() {
+    modal.innerHTML = '';
+    modal.classList.add('is-hidden');
+    backdrop.classList.add('is-hidden');
+  }
+  
+function onKeyClick(event) {
+   
+   
+    // Чого не працює escape коли йде відео і ??????????????????
+    // шо з повноекранним режимом ????????????????????
+    if(event.code !== 'Escape'){
+        return;
+    }
+    modal.innerHTML = '';
+    modal.classList.add('is-hidden');
+    backdrop.classList.add('is-hidden');
+    clearBackdropListeners();
+}
+
+
+function clearBackdropListeners(){
+    window.removeEventListener('keydown', onKeyClick);
+    backdrop.removeEventListener('click', onBackdropClick);
+}
+    
+
+function getMovieId(target) {
+    const movieCard = target.closest('[data-modal]');
+    if (movieCard === null) {
+      return;
+    }
+    return movieCard.dataset.filmid;
+  }
+
+
 async function getData(movieId) {
   try {
     loader.style.display = 'block';
@@ -31,14 +70,6 @@ async function getData(movieId) {
   }
 }
 
-function getMovieId(target) {
-  const movieCard = target.closest('[data-modal]');
-  if (movieCard === null) {
-    return;
-  }
-  return movieCard.dataset.filmid;
-}
-
 function createModalMarkUp(obj) {
   const markUp = `<iframe class="trailer"
     src="https://www.youtube.com/embed/${obj.key}" 
@@ -50,8 +81,9 @@ function createModalMarkUp(obj) {
   return markUp;
 }
 
-function onCloseModalBtnClick() {
-  modal.innerHTML = '';
-  modal.classList.add('is-hidden');
-  backdrop.classList.add('is-hidden');
-}
+
+ function clearBackdropListeners(){
+
+window.removeEventListener('keydown', onKeyClick);
+    backdrop.removeEventListener('click', onBackdropClick);
+ }
