@@ -18,50 +18,18 @@ const QUEUE_KEY = 'queue';
 let watchedStorage = JSON.parse(localStorage.getItem(WATCHED_KEY)) || null;
 let queueStorage = JSON.parse(localStorage.getItem(QUEUE_KEY)) || null;
 
+let movieId;
+
 refs.btnWatchedRef.addEventListener('click', onBtnWatchedClick);
 refs.btnQueueRef.addEventListener('click', onBtnQueueClick);
-
-function onBtnWatchedClick() {
-  if (localStorage.getItem(WATCHED_KEY) === null) {
-    watchedStorage = [];
-  } else {
-    watchedStorage = JSON.parse(localStorage.getItem(WATCHED_KEY));
-  }
-  if (watchedStorage.includes(theMovieAPI.movieId)) {
-    const removeIdx = watchedStorage.indexOf(theMovieAPI.movieId);
-    watchedStorage.splice(removeIdx, 1);
-    refs.btnWatchedRef.textContent = 'Add to watched';
-  } else {
-    watchedStorage.push(theMovieAPI.movieId);
-    refs.btnWatchedRef.textContent = 'Remove from watched';
-  }
-  localStorage.setItem(WATCHED_KEY, JSON.stringify(watchedStorage));
-}
-
-function onBtnQueueClick() {
-  if (localStorage.getItem(QUEUE_KEY) === null) {
-    queueStorage = [];
-  } else {
-    queueStorage = JSON.parse(localStorage.getItem(QUEUE_KEY));
-  }
-  if (queueStorage.includes(theMovieAPI.movieId)) {
-    const removeIdx = queueStorage.indexOf(theMovieAPI.movieId);
-    queueStorage.splice(removeIdx, 1);
-    refs.btnQueueRef.textContent = 'Add to queue';
-  } else {
-    queueStorage.push(theMovieAPI.movieId);
-    refs.btnQueueRef.textContent = 'Remove from queue';
-  }
-  localStorage.setItem(QUEUE_KEY, JSON.stringify(queueStorage));
-}
 
 refs.openModal.addEventListener('click', openModal);
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal(e) {
   console.log(e.target);
- const movieId = getMovieId(e.target);
- console.log(movieId);
+  movieId = Number(getMovieId(e.target));
+  console.log(movieId);
   if (movieId !== undefined) {
     document.body.classList.add('no-scroll');
     refs.modal.classList.remove('is-hidden');
@@ -70,20 +38,18 @@ function openModal(e) {
   }
 }
 
-
 export function getMovieId(target) {
   if (target.classList.contains('movie-card')) {
     return target.dataset.filmid;
   }
 
-const movieCard = target.closest('.movie-card');
-if (movieCard === null) {
-  return;
+  const movieCard = target.closest('.movie-card');
+  if (movieCard === null) {
+    return;
+  }
+  console.log(movieCard.dataset);
+  return movieCard.dataset.filmid;
 }
-console.log(movieCard.dataset);
-return movieCard.dataset.filmid;
-}
-
 
 function closeModal() {
   document.body.classList.remove('no-scroll');
@@ -99,22 +65,18 @@ async function getCurrentMovieData(id) {
   // console.log(e);
 
   try {
-
     // theMovieAPI.movieId = await theMovieAPI.getMovieID(movieTitle);
     const result = await theMovieAPI.fetchOneFilm(id);
-   
+
     // const result = await theMovieAPI.fetchOneFilm(theMovieAPI.movieId);
 
-    if (
-      watchedStorage !== null &&
-      watchedStorage.includes(theMovieAPI.movieId)
-    ) {
+    if (watchedStorage !== null && watchedStorage.includes(movieId)) {
       refs.btnWatchedRef.textContent = 'Remove from watched';
     } else {
       refs.btnWatchedRef.textContent = 'Add to watched';
     }
 
-    if (queueStorage !== null && queueStorage.includes(theMovieAPI.movieId)) {
+    if (queueStorage !== null && queueStorage.includes(movieId)) {
       refs.btnQueueRef.textContent = 'Remove from queue';
     } else {
       refs.btnQueueRef.textContent = 'Add to queue';
@@ -124,6 +86,40 @@ async function getCurrentMovieData(id) {
   } catch (error) {
     console.log(error);
   }
+}
+
+function onBtnWatchedClick() {
+  if (localStorage.getItem(WATCHED_KEY) === null) {
+    watchedStorage = [];
+  } else {
+    watchedStorage = JSON.parse(localStorage.getItem(WATCHED_KEY));
+  }
+  if (watchedStorage.includes(movieId)) {
+    const removeIdx = watchedStorage.indexOf(movieId);
+    watchedStorage.splice(removeIdx, 1);
+    refs.btnWatchedRef.textContent = 'Add to watched';
+  } else {
+    watchedStorage.push(movieId);
+    refs.btnWatchedRef.textContent = 'Remove from watched';
+  }
+  localStorage.setItem(WATCHED_KEY, JSON.stringify(watchedStorage));
+}
+
+function onBtnQueueClick() {
+  if (localStorage.getItem(QUEUE_KEY) === null) {
+    queueStorage = [];
+  } else {
+    queueStorage = JSON.parse(localStorage.getItem(QUEUE_KEY));
+  }
+  if (queueStorage.includes(movieId)) {
+    const removeIdx = queueStorage.indexOf(movieId);
+    queueStorage.splice(removeIdx, 1);
+    refs.btnQueueRef.textContent = 'Add to queue';
+  } else {
+    queueStorage.push(movieId);
+    refs.btnQueueRef.textContent = 'Remove from queue';
+  }
+  localStorage.setItem(QUEUE_KEY, JSON.stringify(queueStorage));
 }
 
 function createModalMarkup(movie) {

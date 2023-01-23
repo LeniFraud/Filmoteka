@@ -194,6 +194,19 @@
   font-size: 12px;
   line-height: 1.33;
   text-transform: uppercase;
+  border-radius: 5px;
+  border: 1px solid #000000;
+  background-color: transparent;
+  transition: color var(--time) var(--function),
+    border-color var(--time) var(--function),
+    background-color var(--time) var(--function);
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    border-color: #ff6b01;
+    background-color: #ff6b01;
+  }
   // @media screen and (min-width: 1200px) {
   //   padding-top: 14px;
   //   padding-bottom: 12px;
@@ -201,14 +214,7 @@
 }
 
 .btn-accent {
-  color: #fff;
-  border-radius: 5px;
-  border: 1px solid #ff6b01;
-  background-color: #ff6b01;
 }
 
 .btn-usual {
-  border-radius: 5px;
-  border: 1px solid #000000;
-  background-color: transparent;
 }
