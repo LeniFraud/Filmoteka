@@ -7,7 +7,7 @@ const btnTrailer = document.querySelector('.trailer-btn');
 const loader = document.querySelector('.loader');
 
 btnTrailer.addEventListener('click', onTrailerBtnClick);
-backdrop.addEventListener('click', onBackdropClick);
+
 
 
 
@@ -18,6 +18,7 @@ function onTrailerBtnClick(event) {
 
   getData(movieId);
   window.addEventListener('keydown', onKeyClick);
+  backdrop.addEventListener('click', onBackdropClick);
 }
 
 function onBackdropClick() {
@@ -27,14 +28,33 @@ function onBackdropClick() {
   }
   
 function onKeyClick(event) {
+   
+   
+    // Чого не працює escape коли йде відео і ??????????????????
+    // шо з повноекранним режимом ????????????????????
     if(event.code !== 'Escape'){
         return;
     }
     modal.innerHTML = '';
     modal.classList.add('is-hidden');
     backdrop.classList.add('is-hidden');
-    window.removeEventListener('keydown', onKeyClick);
+    clearBackdropListeners();
 }
+
+
+function clearBackdropListeners(){
+    window.removeEventListener('keydown', onKeyClick);
+    backdrop.removeEventListener('click', onBackdropClick);
+}
+    
+
+function getMovieId(target) {
+    const movieCard = target.closest('[data-modal]');
+    if (movieCard === null) {
+      return;
+    }
+    return movieCard.dataset.filmid;
+  }
 
 
 async function getData(movieId) {
@@ -50,15 +70,6 @@ async function getData(movieId) {
   }
 }
 
-
-function getMovieId(target) {
-  const movieCard = target.closest('[data-modal]');
-  if (movieCard === null) {
-    return;
-  }
-  return movieCard.dataset.filmid;
-}
-
 function createModalMarkUp(obj) {
   const markUp = `<iframe class="trailer"
     src="https://www.youtube.com/embed/${obj.key}" 
@@ -70,3 +81,9 @@ function createModalMarkUp(obj) {
   return markUp;
 }
 
+
+ function clearBackdropListeners(){
+
+window.removeEventListener('keydown', onKeyClick);
+    backdrop.removeEventListener('click', onBackdropClick);
+ }
