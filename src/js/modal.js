@@ -16,31 +16,29 @@ refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal(e) {
   // console.log(e.target);
- const movieId = getMovieId(e.target);
 
+  movieId = Number(getMovieId(e.target));
   if (movieId !== undefined) {
     document.body.classList.add('no-scroll');
-    refs.modal.classList.remove('is-hidden');    
+    refs.modal.classList.remove('is-hidden');
     getCurrentMovieData(movieId);
-    refs.modal.addEventListener('click', closeModal);
+    refs.modal.addEventListener('click', onBackdropClick);
     window.addEventListener('keydown', onKeyClick);
   }
 }
-
 
 function getMovieId(target) {
   if (target.classList.contains('movie-card')) {
     return target.dataset.filmid;
   }
 
-const movieCard = target.closest('.movie-card');
-if (movieCard === null) {
-  return;
+  const movieCard = target.closest('.movie-card');
+  if (movieCard === null) {
+    return;
+  }
+  // console.log(movieCard.dataset);
+  return movieCard.dataset.filmid;
 }
-// console.log(movieCard.dataset);
-return movieCard.dataset.filmid;
-}
-
 
 function closeModal() {
   document.body.classList.remove('no-scroll');
@@ -48,21 +46,28 @@ function closeModal() {
   clearBackdropListeners();
 }
 
-function clearBackdropListeners(){
-    window.removeEventListener('keydown', onKeyClick);
-    refs.modal.removeEventListener('click', closeModal);
-  }
-
-function onKeyClick(event) {
-  if(event.code !== 'Escape') {
+function onBackdropClick(event) {
+  if (!event.target.classList.contains('modal-backdrop')) {
     return;
   }
-    document.body.classList.remove('no-scroll');
-    refs.modal.classList.add('is-hidden');
-    clearBackdropListeners();
+  document.body.classList.remove('no-scroll');
+  refs.modal.classList.add('is-hidden');
+  clearBackdropListeners();
 }
 
+function onKeyClick(event) {
+  if (event.code !== 'Escape') {
+    return;
+  }
+  document.body.classList.remove('no-scroll');
+  refs.modal.classList.add('is-hidden');
+  clearBackdropListeners();
+}
 
+function clearBackdropListeners() {
+  window.removeEventListener('keydown', onKeyClick);
+  refs.modal.removeEventListener('click', closeModal);
+}
 
 async function getCurrentMovieData(id) {
   refs.modalRef.innerHTML = '';
