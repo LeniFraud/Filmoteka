@@ -14,28 +14,49 @@ refs.openModal.addEventListener('click', openModal);
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal(e) {
-  if (e.target !== refs.container) {
+  console.log(e.target);
+ const movieId = getMovieId(e.target);
+ console.log(movieId);
+  if (movieId !== undefined) {
     document.body.classList.add('no-scroll');
     refs.modal.classList.remove('is-hidden');
 
-    getCurrentMovieData(e);
+    getCurrentMovieData(movieId);
   }
 }
+
+
+export function getMovieId(target) {
+  if (target.classList.contains('movie-card')) {
+    return target.dataset.filmid;
+  }
+
+const movieCard = target.closest('.movie-card');
+if (movieCard === null) {
+  return;
+}
+console.log(movieCard.dataset);
+return movieCard.dataset.filmid;
+}
+
 
 function closeModal() {
   document.body.classList.remove('no-scroll');
   refs.modal.classList.add('is-hidden');
 }
 
-async function getCurrentMovieData(e) {
+async function getCurrentMovieData(id) {
   refs.modalRef.innerHTML = '';
-  const movieCard = e.target.closest('.movie-card');
-  const movieTitle = movieCard.querySelector('.movie-title').textContent;
+  refs.modal.dataset.filmid = id;
+  // const movieCard = e.target.closest('.movie-card');
+  // const movieTitle = movieCard.querySelector('.movie-title').textContent;
+  // console.log(e.target.closest('.movie-card'));
+  // console.log(e);
 
   try {
-    theMovieAPI.movieId = await theMovieAPI.getMovieID(movieTitle);
-    const result = await theMovieAPI.fetchOneFilm(theMovieAPI.movieId);
-
+    // theMovieAPI.movieId = await theMovieAPI.getMovieID(movieTitle);
+    const result = await theMovieAPI.fetchOneFilm(id);
+    
     createModalMarkup(result.data);
   } catch (error) {
     console.log(error);
@@ -97,7 +118,7 @@ function createModalMarkup(movie) {
         </p>
         <div class="modal__buttons">
           <button class="btn-accent btn" type="button">Add to watched</button>
-          <button class="btn-usual btn" type="button">Add to queue</button>
+          <button class="btn-usual btn" type="button">Add to queue</button>          
         </div>
       </div>
     </div>`;

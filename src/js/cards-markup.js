@@ -5,8 +5,8 @@ function createMarkup(array) {
   return array
     .map(
       el =>
-        `<div class = "movie-card">
-<div class="movie-image-container">
+        `<div class = "movie-card" data-filmId = ${el.id}>
+        <div class="movie-image-container">
          <img class="movie-image" src="${BASE_URL_FOR_IMAGES}${
           el.poster_path ? el.poster_path : '/rBxo92GmbsQbinrbJOFnmiKuMXj.jpg'
         }" alt="${el.original_title} poster" /> 
