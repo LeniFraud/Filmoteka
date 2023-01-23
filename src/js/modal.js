@@ -8,7 +8,52 @@ const refs = {
   modal: document.querySelector('[data-modal]'),
   container: document.querySelector('.gallery'),
   modalRef: document.querySelector('.modal-wrap'),
+  btnWatchedRef: document.querySelector('.js-watched-btn'),
+  btnQueueRef: document.querySelector('.js-queue-btn'),
 };
+
+const WATCHED_KEY = 'watched';
+const QUEUE_KEY = 'queue';
+
+let watchedStorage = JSON.parse(localStorage.getItem(WATCHED_KEY)) || null;
+let queueStorage = JSON.parse(localStorage.getItem(QUEUE_KEY)) || null;
+
+refs.btnWatchedRef.addEventListener('click', onBtnWatchedClick);
+refs.btnQueueRef.addEventListener('click', onBtnQueueClick);
+
+function onBtnWatchedClick() {
+  if (localStorage.getItem(WATCHED_KEY) === null) {
+    watchedStorage = [];
+  } else {
+    watchedStorage = JSON.parse(localStorage.getItem(WATCHED_KEY));
+  }
+  if (watchedStorage.includes(theMovieAPI.movieId)) {
+    const removeIdx = watchedStorage.indexOf(theMovieAPI.movieId);
+    watchedStorage.splice(removeIdx, 1);
+    refs.btnWatchedRef.textContent = 'Add to watched';
+  } else {
+    watchedStorage.push(theMovieAPI.movieId);
+    refs.btnWatchedRef.textContent = 'Remove from watched';
+  }
+  localStorage.setItem(WATCHED_KEY, JSON.stringify(watchedStorage));
+}
+
+function onBtnQueueClick() {
+  if (localStorage.getItem(QUEUE_KEY) === null) {
+    queueStorage = [];
+  } else {
+    queueStorage = JSON.parse(localStorage.getItem(QUEUE_KEY));
+  }
+  if (queueStorage.includes(theMovieAPI.movieId)) {
+    const removeIdx = queueStorage.indexOf(theMovieAPI.movieId);
+    queueStorage.splice(removeIdx, 1);
+    refs.btnQueueRef.textContent = 'Add to queue';
+  } else {
+    queueStorage.push(theMovieAPI.movieId);
+    refs.btnQueueRef.textContent = 'Remove from queue';
+  }
+  localStorage.setItem(QUEUE_KEY, JSON.stringify(queueStorage));
+}
 
 refs.openModal.addEventListener('click', openModal);
 refs.closeModalBtn.addEventListener('click', closeModal);
@@ -54,9 +99,27 @@ async function getCurrentMovieData(id) {
   // console.log(e);
 
   try {
+
     // theMovieAPI.movieId = await theMovieAPI.getMovieID(movieTitle);
     const result = await theMovieAPI.fetchOneFilm(id);
-    
+   
+    // const result = await theMovieAPI.fetchOneFilm(theMovieAPI.movieId);
+
+    if (
+      watchedStorage !== null &&
+      watchedStorage.includes(theMovieAPI.movieId)
+    ) {
+      refs.btnWatchedRef.textContent = 'Remove from watched';
+    } else {
+      refs.btnWatchedRef.textContent = 'Add to watched';
+    }
+
+    if (queueStorage !== null && queueStorage.includes(theMovieAPI.movieId)) {
+      refs.btnQueueRef.textContent = 'Remove from queue';
+    } else {
+      refs.btnQueueRef.textContent = 'Add to queue';
+    }
+
     createModalMarkup(result.data);
   } catch (error) {
     console.log(error);
@@ -116,10 +179,6 @@ function createModalMarkup(movie) {
         <p class="modal__about-description">
           ${overview}
         </p>
-        <div class="modal__buttons">
-          <button class="btn-accent btn" type="button">Add to watched</button>
-          <button class="btn-usual btn" type="button">Add to queue</button>          
-        </div>
       </div>
     </div>`;
 
