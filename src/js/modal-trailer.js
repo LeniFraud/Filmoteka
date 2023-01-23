@@ -1,23 +1,42 @@
 import TheMovieAPI from './movies-api';
 
+const theMovieAPI = new TheMovieAPI();
 const backdrop = document.querySelector('.backdrop-trailer');
 const modal = document.querySelector('.trailer-modal');
 const btnTrailer = document.querySelector('.trailer-btn');
 const loader = document.querySelector('.loader');
 
 btnTrailer.addEventListener('click', onTrailerBtnClick);
-backdrop.addEventListener('click', onCloseModalBtnClick);
+backdrop.addEventListener('click', onBackdropClick);
 
-function onTrailerBtnClick(e) {
-    
-  const movieId = getMovieId(e.target);
+
+
+function onTrailerBtnClick(event) {  
+  const movieId = getMovieId(event.target);
   modal.classList.remove('is-hidden');
   backdrop.classList.remove('is-hidden');
 
   getData(movieId);
+  window.addEventListener('keydown', onKeyClick);
 }
 
-const theMovieAPI = new TheMovieAPI();
+function onBackdropClick() {
+    modal.innerHTML = '';
+    modal.classList.add('is-hidden');
+    backdrop.classList.add('is-hidden');
+  }
+  
+function onKeyClick(event) {
+    if(event.code !== 'Escape'){
+        return;
+    }
+    modal.innerHTML = '';
+    modal.classList.add('is-hidden');
+    backdrop.classList.add('is-hidden');
+    window.removeEventListener('keydown', onKeyClick);
+}
+
+
 async function getData(movieId) {
   try {
     loader.style.display = 'block';
@@ -30,6 +49,7 @@ async function getData(movieId) {
     loader.style.display = 'none';
   }
 }
+
 
 function getMovieId(target) {
   const movieCard = target.closest('[data-modal]');
@@ -50,8 +70,3 @@ function createModalMarkUp(obj) {
   return markUp;
 }
 
-function onCloseModalBtnClick() {
-  modal.innerHTML = '';
-  modal.classList.add('is-hidden');
-  backdrop.classList.add('is-hidden');
-}
