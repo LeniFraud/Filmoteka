@@ -6,3 +6,4 @@ import './js/search-movie';
 import './js/pagination';
 import './js/modal';
 import './js/footer-modal';
+import './js/modal-trailer';
