@@ -27,14 +27,14 @@ refs.openModal.addEventListener('click', openModal);
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal(e) {
-  console.log(e.target);
+  // console.log(e.target);
   movieId = Number(getMovieId(e.target));
-  console.log(movieId);
   if (movieId !== undefined) {
     document.body.classList.add('no-scroll');
     refs.modal.classList.remove('is-hidden');
-
     getCurrentMovieData(movieId);
+    refs.modal.addEventListener('click', onBackdropClick);
+    window.addEventListener('keydown', onKeyClick);
   }
 }
 
@@ -47,13 +47,37 @@ export function getMovieId(target) {
   if (movieCard === null) {
     return;
   }
-  console.log(movieCard.dataset);
+  // console.log(movieCard.dataset);
   return movieCard.dataset.filmid;
 }
 
 function closeModal() {
   document.body.classList.remove('no-scroll');
   refs.modal.classList.add('is-hidden');
+  clearBackdropListeners();
+}
+
+function onBackdropClick(event) {
+  if (!event.target.classList.contains('modal-backdrop')) {
+    return;
+  }
+  document.body.classList.remove('no-scroll');
+  refs.modal.classList.add('is-hidden');
+  clearBackdropListeners();
+}
+
+function onKeyClick(event) {
+  if (event.code !== 'Escape') {
+    return;
+  }
+  document.body.classList.remove('no-scroll');
+  refs.modal.classList.add('is-hidden');
+  clearBackdropListeners();
+}
+
+function clearBackdropListeners() {
+  window.removeEventListener('keydown', onKeyClick);
+  refs.modal.removeEventListener('click', closeModal);
 }
 
 async function getCurrentMovieData(id) {

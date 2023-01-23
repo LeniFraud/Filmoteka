@@ -13,7 +13,7 @@
 
 .modal {
   position: relative;
-  max-width: 280px;
+  max-width: 440px;
   margin: auto;
   padding: 48px 20px 40px 20px;
   background-color: #ffffff;
@@ -21,7 +21,7 @@
     min-width: 704px;
     padding: 40px 72px 40px 36px;
   }
-  @media screen and (min-width: 1200px) {
+  @media screen and (min-width: 1280px) {
     padding: 40px 12px;
     min-width: 806px;
   }
@@ -64,8 +64,8 @@
 
 .modal__poster {
   flex-shrink: 0;
-  width: 240px;
-  height: 357px;
+  // width: 240px;
+  // height: 357px;
 
   @media screen and (min-width: 768px) {
     width: 264px;
@@ -169,17 +169,23 @@
 
 .modal__about-description {
   margin-top: 8px;
+  // font-size: 12px;
   line-height: 1.66;
 }
 
 .modal__buttons {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
   margin-top: 20px;
-  justify-content: center;
-  @media screen and (min-width: 1200px) {
-    justify-content: flex-start;
+
+  @include tablet {
+    flex-direction: unset;
   }
+  // @media screen and (min-width: 1200px) {
+  //   justify-content: flex-start;
+  // }
 }
 
 .btn {
@@ -211,10 +217,4 @@
   //   padding-top: 14px;
   //   padding-bottom: 12px;
   // }
-}
-
-.btn-accent {
-}
-
-.btn-usual {
 }
