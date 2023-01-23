@@ -1,5 +1,25 @@
 // export const refs = {};
 
+// const modalRef = document.querySelector('[data-modal]');
+
+// function addToLocalStorage() {
+//   if (!modalRef.classList.contains('is-hidden')) {
+//     const btnWatchedRef = document.querySelector('.btn-accent');
+//     const btnQueueRef = document.querySelector('.btn-usual');
+
+//     btnWatchedRef.addEventListener('click', onBtnWatchedClick);
+//     btnQueueRef.addEventListener('click', onBtnQueueClick);
+
+//     function onBtnWatchedClick() {
+//       console.log('Watched');
+//     }
+
+//     function onBtnQueueClick() {
+//       console.log('Queue');
+//     }
+//   }
+// }
+
 /*
 import TheMovieAPI from './movies-api';
 
