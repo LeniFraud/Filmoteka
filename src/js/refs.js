@@ -1,5 +1,44 @@
 // export const refs = {};
 
+// import Pagination from 'tui-pagination';
+// import TheMovieAPI from './movies-api';
+// // import 'tui-pagination/dist/tui-pagination.css'; //fix now styles in html (added with <link>), so I can set my styles above it
+
+// const theMovieAPI = new TheMovieAPI();
+
+// async function getData() {
+//   theMovieAPI.page = 2;
+//   try {
+//     const movieInfo = await theMovieAPI.fetchTrendingFilms();
+//     // const genres = await theMovieAPI.getGenres();
+//     // movieInfo.results.forEach(film => {
+//     //   film.genre_names = film.genre_ids
+//     //     .map(filmId => genres.find(({ id }) => id === filmId))
+//     //     .map(({ name }) => name);
+//     // });
+//     console.log(movieInfo);
+
+//     const { page, results, total_pages, total_results } = movieInfo;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+// getData();
+
+// const options = {
+//   totalItems: 1000,
+//   itemsPerPage: 20,
+//   visiblePages: 5,
+//   page: 1,
+//   centerAlign: true,
+// };
+
+// const container = document.getElementById('tui-pagination-container');
+// const instance = new Pagination(container, options);
+
+// console.log(instance.getCurrentPage());
+
 // const modalRef = document.querySelector('[data-modal]');
 
 // function addToLocalStorage() {
