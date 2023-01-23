@@ -58,9 +58,8 @@ const onWachedBtnSubmit = async event => {
         .map(({ name }) => name);
     });
 
-    console.log('Submit Wached')
+    console.log('Submit Wached');
     container.innerHTML = createMarkup(movieInfo.results);
-
   } catch (error) {
     console.log(error);
   }
