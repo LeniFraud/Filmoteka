@@ -1,7 +1,11 @@
+
 //! make the same instance of API class for search and trending instead of making new insance of class
 //! import pagination instance and sesttings of it (in options)
 import { theMovieAPI } from './movies-markup';
 import { instance, options } from './pagination';
+
+import TheMovieAPI from './movies-api';
+import { createMarkup, makeGenresList } from './cards-markup';
 
 const searchFormEl = document.querySelector('.header__form');
 const container = document.querySelector('.gallery');
@@ -33,6 +37,7 @@ const onSearchFormSubmit = async event => {
 
     message.classList.add('visually-hidden');
     container.innerHTML = createMarkup(data.results);
+
     event.target.reset();
 
     //! move pagination instance from selected =>to the first page on the new search
@@ -42,44 +47,10 @@ const onSearchFormSubmit = async event => {
     //!change totalItems quantity
     instance.setTotalItems(data.total_results);
     options.totalItems = data.total_results;
+
   } catch (err) {
     console.log(err);
   }
 };
 
 searchFormEl.addEventListener('submit', onSearchFormSubmit);
-
-function createMarkup(array) {
-  const BASE_URL_FOR_IMAGES = 'https://image.tmdb.org/t/p/w500';
-  return array
-    .map(
-      el =>
-        `<div class = "movie-card">
-<div class="movie-image-container">
-         <img class="movie-image" src="${BASE_URL_FOR_IMAGES}${
-          el.poster_path
-        }" alt="${el.original_title} poster" />
-         </div>
-         <h1 class= "movie-title">${el.original_title}</h1>
-    <div class="movie-info">
-     ${makeGenresList(el)}
-    <span class = "movie-line"> | </span>
-    <span class = "movie-year"> ${el.release_date.slice(0, 4)} </span>
-    <span class="movie-rate"> ${el.vote_average.toFixed(1)}
-    </div>
-</div>
-`
-    )
-    .join('');
-}
-function makeGenresList(el) {
-  return `<div>${
-    el.genre_names.length > 2
-      ? `<span class ="movie-genre">${el.genre_names[0]},
-    </span>` +
-        `<span class="movie-genre">${el.genre_names[1]}, </span>` +
-        `<span class="movie-other">Other </span>`
-      : el.genre_names[0]
-  }
-    </div>`;
-}
