@@ -1,8 +1,8 @@
-//! make the same instance of API class for search and trending instead of making new insance of class
+//! make the same instance of API class for search and trending instead of making new instance of class
 //! import pagination instance and sesttings of it (in options)
 import { theMovieAPI } from './movies-markup';
 import { instance, options } from './pagination';
-import { createMarkup } from './cards-markup';
+import { createMarkup, makeGenresList } from './cards-markup';
 
 const searchFormEl = document.querySelector('.header__form');
 const container = document.querySelector('.gallery');
@@ -34,6 +34,7 @@ const onSearchFormSubmit = async event => {
 
     message.classList.add('visually-hidden');
     container.innerHTML = createMarkup(data.results);
+
     event.target.reset();
 
     //! move pagination instance from selected =>to the first page on the new search
