@@ -7,3 +7,4 @@ import './js/pagination';
 import './js/modal';
 import './js/footer-modal';
 import './js/get-movie';
+import './js/modal-trailer';

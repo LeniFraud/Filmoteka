@@ -26,15 +26,16 @@ function createMarkup(array) {
 }
 
 function makeGenresList(el) {
-  return `<div>${
-    el.genre_names.length > 2
-      ? `<span class ="movie-genre">${el.genre_names[0]},
-    </span>` +
-        `<span class="movie-genre">${el.genre_names[1]}, </span>` +
-        `<span class="movie-other">Other </span>`
-      : el.genre_names[0]
-  }
-    </div>`;
+  console.log(el);
+  const isMoreThanTwoGenres = el.genre_names.length > 2;
+  return `<div>
+      ${mapGeneresNames(el.genre_names)}
+        ${isMoreThanTwoGenres ? `<span class="movie-other">, Other </span>` : '' }
+         </div>`;
+}
+
+function mapGeneresNames (genreNames) {
+return genreNames.slice(0, 2).map( genreNames=> `<span class ="movie-genre">${genreNames}</span>`).join(', ');
 }
 
 function checkMoviePoster(baseUrl, posterUrl) {
