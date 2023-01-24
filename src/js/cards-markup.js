@@ -39,7 +39,8 @@ function makeGenresList(el) {
 
 function checkMoviePoster(baseUrl, posterUrl) {
   if (posterUrl === null) {
-    return 'https://via.placeholder.com/350x500?text=No+Poster';
+    // return 'https://via.placeholder.com/350x500?text=No+Poster';
+    return 'https://dummyimage.com/350x500/ccc/fff.jpg&text=No+poster';
   }
   return baseUrl + posterUrl;
 }
