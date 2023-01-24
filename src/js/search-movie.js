@@ -2,6 +2,7 @@
 //! import pagination instance and sesttings of it (in options)
 import { theMovieAPI } from './movies-markup';
 import { instance, options } from './pagination';
+import { createMarkup } from './cards-markup';
 
 const searchFormEl = document.querySelector('.header__form');
 const container = document.querySelector('.gallery');
