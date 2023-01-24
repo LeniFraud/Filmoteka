@@ -2,10 +2,12 @@ import TheMovieAPI from './movies-api';
 import { createMarkup, makeGenresList } from './cards-markup';
 
 const container = document.querySelector('.gallery');
+const loader = document.querySelector(".loader");
 const theMovieAPI = new TheMovieAPI();
 
 async function getData() {
   try {
+    loader.style.display = "block";
     const movieInfo = await theMovieAPI.fetchTrendingFilms();
     const genres = await theMovieAPI.getGenres();
     movieInfo.results.forEach(film => {
@@ -16,6 +18,9 @@ async function getData() {
     container.innerHTML = createMarkup(movieInfo.results);
   } catch (error) {
     console.log(error);
+  }
+  finally{
+    loader.style.display = "none";
   }
 }
 getData();

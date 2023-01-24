@@ -51,6 +51,7 @@ function onWatchedBtnSubmit() {
     return
   }
 
+
   moviesArray.map(film => {
     get(film);
   });
