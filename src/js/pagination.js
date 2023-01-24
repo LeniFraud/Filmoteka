@@ -1,8 +1,7 @@
 import Pagination from 'tui-pagination';
 // import 'tui-pagination/dist/tui-pagination.css';
-import {getData, theMovieAPI} from './movies-markup';
-import {createMarkup} from './cards-markup';
-
+import { getData, theMovieAPI } from './movies-markup';
+import { createMarkup } from './cards-markup';
 
 const pagination = document.getElementById('tui-pagination-container');
 const container = document.querySelector('.gallery');
@@ -17,18 +16,13 @@ export const options = {
 };
 export const instance = new Pagination(pagination, options);
 
-function makePagination({ total_results: totalItems}) {
+function makePagination({ total_results: totalItems }) {
   options.totalItems = totalItems;
   instance.setTotalItems(totalItems);
 }
 
-async function getTotalItemsTrending() {
-  try {
-    return await theMovieAPI.fetchTrendingFilms();
-  } 
-}
-
-getTotalItemsTrending()
+theMovieAPI
+  .fetchTrendingFilms()
   .then(makePagination)
   .catch(err => console.error(err));
 
@@ -40,40 +34,37 @@ async function changePage(e) {
     return;
   }
 
-  if(Number(el.innerHTML)) {
+  if (Number(el.innerHTML)) {
     options.page = Number(el.innerHTML);
-  }
-
-  else {
-    if(el.classList.contains('tui-next-is-ellip')){
-      options.page +=5;
+  } else {
+    if (el.classList.contains('tui-next-is-ellip')) {
+      options.page += 5;
     }
-    if(el.classList.contains('tui-prev-is-ellip')){
-      options.page -=5;
+    if (el.classList.contains('tui-prev-is-ellip')) {
+      options.page -= 5;
     }
     if (el.innerText === 'first') {
       options.page = 1;
     }
-    if(el.innerText === 'last') {
+    if (el.innerText === 'last') {
       options.page = Math.ceil(options.totalItems / options.itemsPerPage);
     }
-    if(el.innerText === "next") {
+    if (el.innerText === 'next') {
       options.page += 1;
     }
-    if(el.innerText === "prev") {
+    if (el.innerText === 'prev') {
       options.page -= 1;
     }
   }
-  
+
   theMovieAPI.page = options.page;
 
   if (theMovieAPI.inputValue !== null) {
     return await renderFilmsPage();
   }
-  
+
   return await getData();
 }
- 
 
 async function renderFilmsPage() {
   try {
