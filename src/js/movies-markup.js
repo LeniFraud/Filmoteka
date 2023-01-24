@@ -2,10 +2,11 @@ import TheMovieAPI from './movies-api';
 import { createMarkup, makeGenresList } from './cards-markup';
 
 const container = document.querySelector('.gallery');
+export const theMovieAPI = new TheMovieAPI();
 const loader = document.querySelector(".loader");
-const theMovieAPI = new TheMovieAPI();
 
-async function getData() {
+
+export async function getData() {
   try {
     loader.style.display = "block";
     const movieInfo = await theMovieAPI.fetchTrendingFilms();
