@@ -89,14 +89,14 @@ export default class TheMovieAPI {
   }
 
   // трейлер до фільму
-  async fetchTrailerFilm() {
+  async fetchTrailerFilm(id) {
     const searchParams = {
       params: {
         api_key: TheMovieAPI.API_KEY,
       },
     };
     const response = await axios.get(
-      `${TheMovieAPI.BASE_URL}movie/${this.movieId}/videos`,
+      `${TheMovieAPI.BASE_URL}movie/${id}/videos`,
       searchParams
     );
     return response;

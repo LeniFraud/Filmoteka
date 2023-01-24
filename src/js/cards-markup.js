@@ -5,11 +5,12 @@ function createMarkup(array) {
   return array
     .map(
       el =>
-        `<div class = "movie-card">
-<div class="movie-image-container">
-         <img class="movie-image" src="${BASE_URL_FOR_IMAGES}${
-          el.poster_path ? el.poster_path : '/rBxo92GmbsQbinrbJOFnmiKuMXj.jpg'
-        }" alt="${el.original_title} poster" /> 
+        `<div class = "movie-card" data-filmId = ${el.id}>
+        <div class="movie-image-container">
+         <img class="movie-image" src="${checkMoviePoster(
+           BASE_URL_FOR_IMAGES,
+           el.poster_path
+         )}" alt="${el.original_title} poster" /> 
          </div>
          <h1 class= "movie-title">${el.original_title}</h1>
     <div class="movie-info">   
@@ -34,4 +35,11 @@ function makeGenresList(el) {
       : el.genre_names[0]
   }
     </div>`;
+}
+
+function checkMoviePoster(baseUrl, posterUrl) {
+  if (posterUrl === null) {
+    return 'https://via.placeholder.com/350x500?text=No+Poster';
+  }
+  return baseUrl + posterUrl;
 }
