@@ -163,9 +163,7 @@ function createModalMarkup(movie) {
   const markup = `<div class="modal__poster">
         <img
           class="modal__poster-img"
-          src="${BASE_URL_FOR_IMAGES}${
-    poster_path ? poster_path : '/rBxo92GmbsQbinrbJOFnmiKuMXj.jpg'
-  }"
+          src="${checkMoviePoster(BASE_URL_FOR_IMAGES, poster_path)}"
           alt="${original_title}"
         />
       </div>
@@ -192,7 +190,9 @@ function createModalMarkup(movie) {
           </li>
           <li class="modal__info-item">
             <div class="modal__characteristic">Genre</div>
-            <div class="modal__value genre">${genres[0].name}</div>
+            <div class="modal__value genre">${
+              genres[0]?.name || 'No genres'
+            }</div>
           </li>
         </ul>
         <h3 class="modal__about">About</h3>
@@ -203,6 +203,13 @@ function createModalMarkup(movie) {
     </div>`;
 
   refs.modalRef.innerHTML = markup;
+}
+
+function checkMoviePoster(baseUrl, posterUrl) {
+  if (posterUrl === null) {
+    return 'https://via.placeholder.com/350x500?text=No+Poster';
+  }
+  return baseUrl + posterUrl;
 }
 
 /*import TheMovieAPI from './movies-api';
