@@ -1,10 +1,11 @@
-import TheMovieAPI from './movies-api';
+//! make the same instance of API class for search and trending instead of making new insance of class
+//! import pagination instance and sesttings of it (in options)
+import { theMovieAPI } from './movies-markup';
+import { instance, options } from './pagination';
 
 const searchFormEl = document.querySelector('.header__form');
 const container = document.querySelector('.gallery');
 const message = document.querySelector('.header__form-warning-text');
-
-const theMovieAPI = new TheMovieAPI();
 
 const onSearchFormSubmit = async event => {
   event.preventDefault();
@@ -33,6 +34,14 @@ const onSearchFormSubmit = async event => {
     message.classList.add('visually-hidden');
     container.innerHTML = createMarkup(data.results);
     event.target.reset();
+
+    //! move pagination instance from selected =>to the first page on the new search
+    instance.movePageTo(1);
+    options.page = 1;
+
+    //!change totalItems quantity
+    instance.setTotalItems(data.total_results);
+    options.totalItems = data.total_results;
   } catch (err) {
     console.log(err);
   }

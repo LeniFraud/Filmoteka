@@ -1,48 +1,38 @@
 import Pagination from 'tui-pagination';
 // import 'tui-pagination/dist/tui-pagination.css';
 import {getData, theMovieAPI} from './movies-markup';
-import { theMovieAPI as theMovieAPISearch} from './search-movie';
+import {createMarkup} from './cards-markup';
 
 
 const pagination = document.getElementById('tui-pagination-container');
-// const searchFormEl = document.querySelector('.header__form');
+const container = document.querySelector('.gallery');
 
 pagination.addEventListener('click', changePage);
-// searchFormEl.addEventListener('submit', getTotalItemsOnSearch);
 
-const options = {
-  totalItems: 0,
+export const options = {
+  totalItems: 20000,
   page: 1,
   itemsPerPage: 20,
   visiblePages: 5,
-  typeOfSearch: 'trending',
 };
+export const instance = new Pagination(pagination, options);
 
 function makePagination({ total_results: totalItems}) {
-options.totalItems = totalItems;
-
-  const instance = new Pagination(pagination, options);
-  return instance;
+  options.totalItems = totalItems;
+  instance.setTotalItems(totalItems);
 }
 
-async function getTotalItems() {
+async function getTotalItemsTrending() {
   try {
     return await theMovieAPI.fetchTrendingFilms();
   } 
 }
 
-getTotalItems()
+getTotalItemsTrending()
   .then(makePagination)
   .catch(err => console.error(err));
 
-// async function getTotalItemsOnSearch() {
-//   try {
-//     options.typeOfSearch === 'search'
-//       return await theMovieAPISearch.fetchSearchFilms();
-//   }
-// }
-
-
+//onclick event (render new page)
 async function changePage(e) {
   const el = e.target;
 
@@ -74,28 +64,30 @@ async function changePage(e) {
       options.page -= 1;
     }
   }
- 
+  
   theMovieAPI.page = options.page;
-  console.log(theMovieAPI.page);
-  // if (options.typeOfSearch === 'trending') {
-    return await getData();
-  // }
-  // else {
-  //   return await renderFilms();
-  // }
-}
 
-// async function renderFilms() {
-//   try {
-//     const movieInfo = await theMovieAPI.fetchSearchFilms();
-//     const genres = await theMovieAPI.getGenres();
-//     movieInfo.results.forEach(film => {
-//       film.genre_names = film.genre_ids
-//         .map(filmId => genres.find(({ id }) => id === filmId))
-//         .map(({ name }) => name);
-//     });
-//     container.innerHTML = createMarkup(movieInfo.results);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+  if (theMovieAPI.inputValue !== null) {
+    return await renderFilmsPage();
+  }
+  
+  return await getData();
+}
+ 
+
+async function renderFilmsPage() {
+  try {
+    const movieInfo = await theMovieAPI.fetchSearchFilms();
+    const genres = await theMovieAPI.getGenres();
+    movieInfo.results.forEach(film => {
+      film.genre_names = film.genre_ids
+        .map(filmId => genres.find(({ id }) => id === filmId))
+        .map(({ name }) => name);
+    });
+    container.innerHTML = createMarkup(movieInfo.results);
+
+    return movieInfo;
+  } catch (error) {
+    console.log(error);
+  }
+}
