@@ -1,4 +1,3 @@
-
 //! make the same instance of API class for search and trending instead of making new insance of class
 //! import pagination instance and sesttings of it (in options)
 import { theMovieAPI } from './movies-markup';
@@ -47,7 +46,6 @@ const onSearchFormSubmit = async event => {
     //!change totalItems quantity
     instance.setTotalItems(data.total_results);
     options.totalItems = data.total_results;
-
   } catch (err) {
     console.log(err);
   }
