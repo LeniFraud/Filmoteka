@@ -1,5 +1,5 @@
 import TheMovieAPI from './movies-api';
-import { createMarkup, makeGenresList } from './cards-markup';
+import { makeGenresList } from './cards-markup';
 import { getMovieId } from './modal';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
@@ -91,6 +91,10 @@ async function get(id) {
   }
 }
 
+function prepareGenres(genres){
+  return genres.map(({name}) => name )
+}
+
 function createMarkup(movie) {
   const BASE_URL_FOR_IMAGES = 'https://image.tmdb.org/t/p/w500';
   const { id, poster_path, original_title, release_date, vote_average } = movie;
@@ -103,7 +107,7 @@ function createMarkup(movie) {
          </div>
          <h1 class= "movie-title">${original_title}</h1>
     <div class="movie-info">
-    ${makeGenresList(movie)}
+    ${makeGenresList(prepareGenres(movie.genres))}
     <span class = "movie-line"> | </span>
     <span class = "movie-year"> ${release_date.slice(0, 4)} </span>
     <span class="movie-rate"> ${vote_average.toFixed(1)}

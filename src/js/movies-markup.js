@@ -1,5 +1,5 @@
 import TheMovieAPI from './movies-api';
-import { createMarkup} from './cards-markup';
+import { createMarkup } from './cards-markup';
 
 const container = document.querySelector('.gallery');
 export const theMovieAPI = new TheMovieAPI();
