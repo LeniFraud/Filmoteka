@@ -1,5 +1,4 @@
 import Pagination from 'tui-pagination';
-// import 'tui-pagination/dist/tui-pagination.css';
 import { getData, theMovieAPI } from './movies-markup';
 import { createMarkup } from './cards-markup';
 
