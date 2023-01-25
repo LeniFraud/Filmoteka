@@ -9,4 +9,3 @@ import './js/footer-modal';
 import './js/modal-trailer';
 import './js/stop-scrolling';
 import './js/userAuth/login-modal';
-
