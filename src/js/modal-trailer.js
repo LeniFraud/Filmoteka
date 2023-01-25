@@ -50,6 +50,7 @@ function getMovieId(target) {
 async function getData(movieId) {
   try {
     loader.style.display = 'block';
+  
     const { data } = await theMovieAPI.fetchTrailerFilm(movieId);
     // console.log(data.results[0]);
     modal.insertAdjacentHTML('beforeend', createModalMarkUp(data.results[0]));
