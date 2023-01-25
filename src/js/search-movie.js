@@ -5,6 +5,7 @@ import { createMarkup, makeGenresList } from './cards-markup';
 const searchFormEl = document.querySelector('.header__form');
 const container = document.querySelector('.gallery');
 const message = document.querySelector('.header__form-warning-text');
+const loaderRef = document.querySelector('.loader');
 
 const onSearchFormSubmit = async event => {
   event.preventDefault();
@@ -15,6 +16,7 @@ const onSearchFormSubmit = async event => {
   theMovieAPI.page = 1;
 
   try {
+    loaderRef.style.display = 'block';
     const data = await theMovieAPI.fetchSearchFilms();
     const genres = await theMovieAPI.getGenres();
 
@@ -33,7 +35,7 @@ const onSearchFormSubmit = async event => {
     message.classList.add('visually-hidden');
     container.innerHTML = createMarkup(data.results);
 
-    event.target.reset();
+    // event.target.reset();
 
     //move pagination instance from selected =>to the first page on the new search
     instance.movePageTo(1);
@@ -44,6 +46,8 @@ const onSearchFormSubmit = async event => {
     options.totalItems = data.total_results;
   } catch (err) {
     console.log(err);
+  } finally {
+    loaderRef.style.display = 'none';
   }
 };
 

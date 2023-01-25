@@ -4,10 +4,12 @@ import { createMarkup } from './cards-markup';
 const container = document.querySelector('.gallery');
 export const theMovieAPI = new TheMovieAPI();
 const loader = document.querySelector('.loader');
+const galleryContainer = document.querySelector('.movies-gallery');
 
 export async function getData() {
   try {
     loader.style.display = 'block';
+    galleryContainer.style.height = '350px';
     const movieInfo = await theMovieAPI.fetchTrendingFilms();
     const genres = await theMovieAPI.getGenres();
     movieInfo.results.forEach(film => {
@@ -20,6 +22,7 @@ export async function getData() {
     console.log(error);
   } finally {
     loader.style.display = 'none';
+    galleryContainer.style.height = 'auto';
   }
 }
 getData();

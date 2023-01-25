@@ -1,15 +1,23 @@
 <header class="header">
   <div class="container">
     <nav class="navigation">
-      <a class="logo__link" href="/">
-        <svg class="logo__icon" width="24" height="24">
+      <a class="logo__link" href="./index.html">
+        <svg class="logo__icon animation-rotate" width="24" height="24">
           <use href="../src/images/sprite.svg#icon-logo"></use>
         </svg>
-        <p class="logo__text">Filmoteka</p>
+        <p class="logo__text animation-logo">Filmoteka</p>
       </a>
       <ul class="site-nav">
         <li><a class="site-nav__link current" href="./index.html">home</a></li>
         <li><a class="site-nav__link" href="./library.html">my library</a></li>
+        <li>
+          <button class="site-nav__link login__btn" type="button">Login</button>
+        </li>
+        <li class="is-hidden">
+          <button class="site-nav__link logout__btn" type="button">
+            Logout
+          </button>
+        </li>
       </ul>
     </nav>
     <div class="header__wrap">

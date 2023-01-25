@@ -8,8 +8,10 @@ const refs = {
   modal: document.querySelector('[data-modal]'),
   container: document.querySelector('.gallery'),
   modalRef: document.querySelector('.modal-wrap'),
+  modalMovieInfo: document.querySelector('.modal-movie-info'),
   btnWatchedRef: document.querySelector('.js-watched-btn'),
   btnQueueRef: document.querySelector('.js-queue-btn'),
+  modalLoader: document.querySelector('.modal-loader'),
 };
 
 const WATCHED_KEY = 'watched';
@@ -27,7 +29,9 @@ refs.openModal.addEventListener('click', openModal);
 refs.closeModalBtn.addEventListener('click', closeModal);
 
 function openModal(e) {
-  // console.log(e.target);
+  if (e.target.closest('.movie-card')?.dataset?.filmid === undefined) {
+    return;
+  }
   movieId = Number(getMovieId(e.target));
   if (movieId !== undefined) {
     document.body.classList.add('no-scroll');
@@ -47,32 +51,29 @@ export function getMovieId(target) {
   if (movieCard === null) {
     return;
   }
-  // console.log(movieCard.dataset);
   return movieCard.dataset.filmid;
 }
 
-function closeModal() {
+export function closeModal() {
   document.body.classList.remove('no-scroll');
   refs.modal.classList.add('is-hidden');
   clearBackdropListeners();
+  refs.modalRef.firstElementChild.remove();
+  refs.modalMovieInfo.firstElementChild.remove();
 }
 
 function onBackdropClick(event) {
   if (!event.target.classList.contains('modal-backdrop')) {
     return;
   }
-  document.body.classList.remove('no-scroll');
-  refs.modal.classList.add('is-hidden');
-  clearBackdropListeners();
+  closeModal();
 }
 
 function onKeyClick(event) {
   if (event.code !== 'Escape') {
     return;
   }
-  document.body.classList.remove('no-scroll');
-  refs.modal.classList.add('is-hidden');
-  clearBackdropListeners();
+  closeModal();
 }
 
 function clearBackdropListeners() {
@@ -81,7 +82,6 @@ function clearBackdropListeners() {
 }
 
 async function getCurrentMovieData(id) {
-  refs.modalRef.innerHTML = '';
   refs.modal.dataset.filmid = id;
   // const movieCard = e.target.closest('.movie-card');
   // const movieTitle = movieCard.querySelector('.movie-title').textContent;
@@ -90,6 +90,9 @@ async function getCurrentMovieData(id) {
 
   try {
     // theMovieAPI.movieId = await theMovieAPI.getMovieID(movieTitle);
+    refs.modalMovieInfo.style.height = '400px';
+    refs.modalMovieInfo.style.justifyContent = 'flex-end';
+    refs.modalLoader.style.display = 'block';
     const result = await theMovieAPI.fetchOneFilm(id);
 
     // const result = await theMovieAPI.fetchOneFilm(theMovieAPI.movieId);
@@ -109,6 +112,10 @@ async function getCurrentMovieData(id) {
     createModalMarkup(result.data);
   } catch (error) {
     console.log(error);
+  } finally {
+    refs.modalMovieInfo.style.height = 'auto';
+    refs.modalMovieInfo.style.justifyContent = 'unset';
+    refs.modalLoader.style.display = 'none';
   }
 }
 
@@ -160,19 +167,21 @@ function createModalMarkup(movie) {
 
   const BASE_URL_FOR_IMAGES = 'https://image.tmdb.org/t/p/w500';
 
-  const markup = `<div class="modal__poster">
+  const posterMarkup = `<div class="modal__poster">
         <img
-          class="modal__poster-img"
+          class="modal__poster-img" loading="lazy"
           src="${checkMoviePoster(BASE_URL_FOR_IMAGES, poster_path)}"
           alt="${original_title}"
         />
-      </div>
+      </div>`;
+
+  const movieInfoMarkup = `
       <div class="modal__description">
         <h2 class="modal__title">${title}</h2>
         <ul class="modal__info">
           <li class="modal__info-item">
             <div class="modal__characteristic">Vote / Votes</div>
-            <div class="modal__value votes">
+            <div class="modal__value">
               <span class="modal__grade-accent">${vote_average.toFixed(
                 1
               )}</span> /
@@ -180,9 +189,10 @@ function createModalMarkup(movie) {
             </div>
           </li>
           <li class="modal__info-item">
-            Popularity<span class="modal__value popularity">${popularity.toFixed(
-              1
-            )}</span>
+          <div class="modal__characteristic">Popularity</div>
+          <div class="modal__value">
+              <span class="modal__value">${popularity.toFixed(1)}</span>
+            </div>
           </li>
           <li class="modal__info-item">
             <div class="modal__characteristic">Original Title</div>
@@ -190,9 +200,7 @@ function createModalMarkup(movie) {
           </li>
           <li class="modal__info-item">
             <div class="modal__characteristic">Genre</div>
-            <div class="modal__value genre">${
-              genres[0]?.name || 'No genres'
-            }</div>
+            <div class="modal__value">${genres[0]?.name || 'No genres'}</div>
           </li>
         </ul>
         <h3 class="modal__about">About</h3>
@@ -202,48 +210,14 @@ function createModalMarkup(movie) {
       </div>
     </div>`;
 
-  refs.modalRef.innerHTML = markup;
+  refs.modalRef.insertAdjacentHTML('afterbegin', posterMarkup);
+  refs.modalMovieInfo.insertAdjacentHTML('afterbegin', movieInfoMarkup);
 }
 
 function checkMoviePoster(baseUrl, posterUrl) {
   if (posterUrl === null) {
-    return 'https://via.placeholder.com/350x500?text=No+Poster';
+    // return 'https://via.placeholder.com/350x500?text=No+Poster';
+    return 'https://dummyimage.com/350x500/ccc/fff.jpg&text=No+poster';
   }
   return baseUrl + posterUrl;
 }
-
-/*import TheMovieAPI from './movies-api';
-
-(() => {
-  const theMovieAPI = new TheMovieAPI();
-
-  const refs = {
-    openModalBtn: document.querySelector('[data-modal-open]'),
-    closeModalBtn: document.querySelector('[data-modal-close]'),
-    modal: document.querySelector('[data-modal]'),
-    container: document.querySelector('.gallery'),
-  };
-
-  refs.container.addEventListener('click', getModalData);
-  refs.openModalBtn.addEventListener('click', toggleModal);
-  refs.closeModalBtn.addEventListener('click', toggleModal);
-
-  function toggleModal() {
-    refs.modal.classList.toggle('is-hidden');
-  }
-
-  async function getModalData(event) {
-    const movieCard = event.target.closest('.movie-card');
-    const movieTitle = movieCard.querySelector('.movie-title').textContent;
-
-    try {
-      const movieID = await theMovieAPI.getMovieID(movieTitle);
-      const movieData = await theMovieAPI.fetchOneFilm(movieID);
-      console.log(movieData);
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
-})();
-*/

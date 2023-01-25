@@ -1,0 +1,42 @@
+<!-- Button to open the modal login form -->
+
+<!-- The Modal -->
+<div class="login-modal-backdrop is-hidden">
+
+    <!-- Modal Content -->
+    <div class="modal-container">
+        <button class="close-modal" data-action="close"></button>
+        <div class="modal-img">
+            <img src="./images/login-avatar.jpg" alt="Avatar" sizes="40 vw" class="modal-avatar">
+        </div>
+        <!-- Login -->
+        <form class="modal-form login">
+            <!-- <label for="login-email"><b>Username</b></label> -->
+            <input type="email" placeholder="Email" name="email" class="modal-input" data-lang='emailPlaceholder'>
+            <!-- <label for="login-password"><b>Password</b></label> -->
+            <input type="password" placeholder="Password" name="password" class="modal-input"
+                data-lang='passwordPlaceholder'>
+            <button type="submit" class="modal-btn" data-lang='loginBtn'>Login</button>
+
+            <p class="modal-text" data-lang='noAccount'>Don't have an account?</p>
+            <button type="button" class="modal-btn" data-action="toggle" data-lang='registerBtn'>Register</button>
+
+        </form>
+
+        <!-- Registration -->
+        <form class="modal-form register is-hidden">
+
+            <input type="email" placeholder="Email" name="email" class="modal-input" data-lang='emailPlaceholder'>
+            <input type="password" placeholder="Password" name="password" class="modal-input"
+                data-lang='passwordPlaceholder'>
+            <input type="password" placeholder="Repeat Password" name="repeat" class="modal-input"
+                data-lang='repeatPlaceholder'>
+            <button type="submit" class="modal-btn" data-lang='registerBtn'>Register</button>
+
+            <p class="modal-text" data-lang='account'>Have an account?</p>
+            <button type="button" class="modal-btn" data-action="toggle" data-lang='loginBtn'>Login</button>
+
+        </form>
+
+    </div>
+</div>
