@@ -27,6 +27,10 @@ theMovieAPI
 
 //onclick event (render new page)
 async function changePage(eventData) {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
   options.page = eventData.page;
   theMovieAPI.page = eventData.page;
 
