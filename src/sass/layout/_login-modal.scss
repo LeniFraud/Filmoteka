@@ -39,13 +39,12 @@
   background-color: var(--cl-modal-overlay_bg-color);
   opacity: 1;
   visibility: visible;
-  transition: opacity 250ms var(--function);
+  transition: opacity 250ms var(--function), visibility 250ms var(--function);
 
   &.is-hidden {
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
-
   }
 
   &.is-hidden .modal-container {
@@ -76,6 +75,8 @@
 }
 
 .modal-img {
+  overflow: hidden;
+  border-radius: 50%;
   width: 40%;
   margin-bottom: 20px;
 }

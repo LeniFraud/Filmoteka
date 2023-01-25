@@ -29,7 +29,6 @@ function switchModals() {
 };
 
 function openLoginModal() {
-    console.log('ghfg');
     scroll.disableScroll();
     loginlRefs.loginBackdropEl.classList.toggle('is-hidden');
     window.addEventListener('keydown', onEscPress);
