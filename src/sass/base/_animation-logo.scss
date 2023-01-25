@@ -1,0 +1,33 @@
+.animation-rotate {
+    animation: rotate-vert-center 4s cubic-bezier(0.455, 0.030, 0.515, 0.955) 3s infinite both;
+}
+
+@keyframes rotate-vert-center {
+    0% {
+        transform: rotateY(0);
+    }
+
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+.animation-logo {
+    animation: tracking-in-expand 3s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+
+@keyframes tracking-in-expand {
+    0% {
+        letter-spacing: -0.5em;
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
