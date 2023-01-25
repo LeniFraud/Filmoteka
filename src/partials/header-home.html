@@ -1,7 +1,7 @@
 <header class="header">
   <div class="container">
     <nav class="navigation">
-      <a class="logo__link" href="/">
+      <a class="logo__link" href="./index.html">
         <svg class="logo__icon animation-rotate" width="24" height="24">
           <use href="../src/images/sprite.svg#icon-logo"></use>
         </svg>
@@ -14,15 +14,24 @@
           <button class="site-nav__link login__btn" type="button">Login</button>
         </li>
         <li class="is-hidden">
-          <button class="site-nav__link logout__btn" type="button">Logout</button>
+          <button class="site-nav__link logout__btn" type="button">
+            Logout
+          </button>
         </li>
       </ul>
     </nav>
     <div class="header__wrap">
       <form class="header__form">
         <label class="form__label" for="searchQuery"></label>
-        <input class="form__input" type="text" name="searchQuery" autocomplete="off" placeholder="Movie search"
-          id="searchQuery" required />
+        <input
+          class="form__input"
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Movie search"
+          id="searchQuery"
+          required
+        />
         <button type="submit" class="form__btn">
           <svg class="form__icon" width="12" height="12">
             <use href="../src/images/sprite.svg#icon-search"></use>
