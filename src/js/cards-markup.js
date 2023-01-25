@@ -27,12 +27,17 @@ function makeGenresList(genreNames) {
   const isMoreThanTwoGenres = genreNames.length > 2;
   return `<div>
       ${mapGeneresNames(genreNames)}
-        ${isMoreThanTwoGenres ? `<span class="movie-other">, Other </span>` : '' }
+        ${
+          isMoreThanTwoGenres ? `<span class="movie-other">, Other </span>` : ''
+        }
          </div>`;
 }
 
-function mapGeneresNames (genreNames) {
-return genreNames.slice(0, 2).map( genreNames=> `<span class ="movie-genre">${genreNames}</span>`).join(', ');
+function mapGeneresNames(genreNames) {
+  return genreNames
+    .slice(0, 2)
+    .map(genreNames => `<span class ="movie-genre">${genreNames}</span>`)
+    .join(', ');
 }
 
 function checkMoviePoster(baseUrl, posterUrl) {

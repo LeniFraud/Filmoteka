@@ -11,6 +11,7 @@ const refs = {
   modalMovieInfo: document.querySelector('.modal-movie-info'),
   btnWatchedRef: document.querySelector('.js-watched-btn'),
   btnQueueRef: document.querySelector('.js-queue-btn'),
+  modalLoader: document.querySelector('.modal-loader'),
 };
 
 const WATCHED_KEY = 'watched';
@@ -89,6 +90,9 @@ async function getCurrentMovieData(id) {
 
   try {
     // theMovieAPI.movieId = await theMovieAPI.getMovieID(movieTitle);
+    refs.modalMovieInfo.style.height = '400px';
+    refs.modalMovieInfo.style.justifyContent = 'flex-end';
+    refs.modalLoader.style.display = 'block';
     const result = await theMovieAPI.fetchOneFilm(id);
 
     // const result = await theMovieAPI.fetchOneFilm(theMovieAPI.movieId);
@@ -108,6 +112,10 @@ async function getCurrentMovieData(id) {
     createModalMarkup(result.data);
   } catch (error) {
     console.log(error);
+  } finally {
+    refs.modalMovieInfo.style.height = 'auto';
+    refs.modalMovieInfo.style.justifyContent = 'unset';
+    refs.modalLoader.style.display = 'none';
   }
 }
 
@@ -161,7 +169,7 @@ function createModalMarkup(movie) {
 
   const posterMarkup = `<div class="modal__poster">
         <img
-          class="modal__poster-img"
+          class="modal__poster-img" loading="lazy"
           src="${checkMoviePoster(BASE_URL_FOR_IMAGES, poster_path)}"
           alt="${original_title}"
         />
