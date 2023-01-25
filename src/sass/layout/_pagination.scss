@@ -1,0 +1,28 @@
+.tui-pagination .tui-page-btn {
+  padding-top: 13px;
+  width: 40px;
+  height: 40px;
+
+  font-weight: 500;
+  line-height: 1.33;
+  color: var(--basic-text-color);
+  border: none;
+  border-radius: 5px;
+}
+
+.tui-pagination .tui-is-selected,
+.tui-pagination strong {
+  background: var(--accent-color);
+  color: var(--light-text-color);
+
+  &:hover {
+    background: var(--accent-color);
+  }
+}
+
+.tui-pagination .tui-first-child.tui-is-selected {
+  border-left: none;
+}
+.tui-pagination .tui-last-child.tui-is-selected {
+  border-right: none;
+}

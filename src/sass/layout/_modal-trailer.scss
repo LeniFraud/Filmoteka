@@ -1,0 +1,46 @@
+.backdrop-trailer {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.trailer-modal {
+  position: relative;
+  width: 280px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+
+  @media screen and (min-width: 480px) {
+    width: 440px;
+    height: 315px;
+  }
+
+  @include tablet {
+    width: 704px;
+    height: 502px;
+  }
+
+  @include desktop {
+    width: 850px;
+    height: 610px;
+  }
+}
+
+.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.trailer {
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

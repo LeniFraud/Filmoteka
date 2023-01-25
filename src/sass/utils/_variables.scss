@@ -1,0 +1,20 @@
+:root {
+  /* Text colors */
+  --basic-text-color: #000000;
+  --light-text-color: #ffffff;
+
+  /* Bg colors */
+  --accent-color: #ff6b08;
+
+  --text-size: 12px;
+  --heading-size: 20px;
+
+  /*Animation*/
+  --time: 250ms;
+  --function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  //бекдроп
+  --cl-modal-overlay_bg-color: rgba(0, 0, 0, 0.8);
+  --cl-modal-text: #8C8C8C;
+  --cl-modal-overlay_bg-color: rgba(0, 0, 0, 0.8);
+}
