@@ -22,6 +22,7 @@ const onSearchFormSubmit = async event => {
 
     if (data.results.length === 0) {
       event.target.reset();
+      instance.setTotalItems(data.results.length);
       message.classList.remove('visually-hidden');
       return;
     }
