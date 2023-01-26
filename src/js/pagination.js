@@ -1,12 +1,9 @@
 import Pagination from 'tui-pagination';
-// import 'tui-pagination/dist/tui-pagination.css';
 import { getData, theMovieAPI } from './movies-markup';
 import { createMarkup } from './cards-markup';
 
 const pagination = document.getElementById('tui-pagination-container');
 const container = document.querySelector('.gallery');
-
-pagination.addEventListener('click', changePage);
 
 export const options = {
   totalItems: 20000,
@@ -15,10 +12,12 @@ export const options = {
   visiblePages: 5,
 };
 export const instance = new Pagination(pagination, options);
+instance.on('afterMove', changePage);
 
 function makePagination({ total_results: totalItems }) {
   options.totalItems = totalItems;
   instance.setTotalItems(totalItems);
+  pagination.classList.remove('visually-hidden');
 }
 
 theMovieAPI
@@ -27,37 +26,13 @@ theMovieAPI
   .catch(err => console.error(err));
 
 //onclick event (render new page)
-async function changePage(e) {
-  const el = e.target;
-
-  if (!el.classList.contains('tui-page-btn')) {
-    return;
-  }
-
-  if (Number(el.innerHTML)) {
-    options.page = Number(el.innerHTML);
-  } else {
-    if (el.classList.contains('tui-next-is-ellip')) {
-      options.page += 5;
-    }
-    if (el.classList.contains('tui-prev-is-ellip')) {
-      options.page -= 5;
-    }
-    if (el.innerText === 'first') {
-      options.page = 1;
-    }
-    if (el.innerText === 'last') {
-      options.page = Math.ceil(options.totalItems / options.itemsPerPage);
-    }
-    if (el.innerText === 'next') {
-      options.page += 1;
-    }
-    if (el.innerText === 'prev') {
-      options.page -= 1;
-    }
-  }
-
-  theMovieAPI.page = options.page;
+async function changePage(eventData) {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+  options.page = eventData.page;
+  theMovieAPI.page = eventData.page;
 
   if (theMovieAPI.inputValue !== null) {
     return await renderFilmsPage();

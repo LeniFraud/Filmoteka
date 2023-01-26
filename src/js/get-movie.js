@@ -3,6 +3,7 @@ import { makeGenresList } from './cards-markup';
 import { getMovieId } from './modal';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { closeModal } from './modal';
+import { hidePagination, renderFirstPage } from './pagination-library';
 
 Notify.init({
   position: 'center-top',
@@ -13,8 +14,8 @@ Notify.init({
 
 const theMovieAPI = new TheMovieAPI();
 
-const watchedBtn = document.querySelector('.watched');
-const queueBtn = document.querySelector('.queue');
+export const watchedBtn = document.querySelector('.watched');
+export const queueBtn = document.querySelector('.queue');
 const container = document.querySelector('.gallery');
 const removeWatchedBtnRef = document.querySelector('.js-watched-btn');
 const removeQueueBtnRef = document.querySelector('.js-queue-btn');
@@ -27,17 +28,8 @@ async function onWatchedBtn() {
   watchedBtn.disabled = true;
   queueBtn.disabled = false;
 
-  const moviesArray = JSON.parse(localStorage.getItem('watched'));
-
-  if (moviesArray === null || moviesArray.length === 0) {
-    Notify.failure('You don`t have any watched film');
-    container.innerHTML = 'Your watchlist is empty. Please add some film.';
-    return;
-  }
-
-  moviesArray.map(film => {
-    get(film);
-  });
+  const key = 'watched';
+  renderFirstPage(key);
 }
 onWatchedBtn();
 
@@ -48,6 +40,9 @@ function onWatchedBtnSubmit() {
   queueBtn.disabled = false;
   container.innerHTML = '';
 
+  const key = 'watched';
+  renderFirstPage(key);
+/*
   const moviesArray = JSON.parse(localStorage.getItem('watched'));
 
   if (moviesArray === null || moviesArray.length === 0) {
@@ -58,6 +53,7 @@ function onWatchedBtnSubmit() {
   moviesArray.map(film => {
     get(film);
   });
+*/
 }
 
 const onQueueBtnSubmit = async event => {
@@ -68,17 +64,8 @@ const onQueueBtnSubmit = async event => {
   queueBtn.disabled = true;
   container.innerHTML = '';
 
-  const moviesArray = JSON.parse(localStorage.getItem('queue'));
-
-  if (moviesArray === null || moviesArray.length === 0) {
-    Notify.failure('You don`t have any film in your queue');
-    container.innerHTML = 'Your queue is empty. Please add some film.';
-    return;
-  }
-
-  moviesArray.map(film => {
-    get(film);
-  });
+  const key = 'queue';
+  renderFirstPage(key);
 };
 
 watchedBtn.addEventListener('click', onWatchedBtnSubmit);
@@ -87,7 +74,7 @@ queueBtn.addEventListener('click', onQueueBtnSubmit);
 removeWatchedBtnRef.addEventListener('click', onRemoveWatchedBtnClick);
 removeQueueBtnRef.addEventListener('click', onRemoveQueueBtnClick);
 
-function onRemoveWatchedBtnClick(e) {
+async function onRemoveWatchedBtnClick(e) {
   if (watchedBtn.disabled !== true) {
     return;
   }
@@ -95,6 +82,9 @@ function onRemoveWatchedBtnClick(e) {
   const currentCard = document.querySelector(`[data-filmid="${currentId}"]`);
   currentCard.remove();
   closeModal();
+
+  const key = 'watched';
+  hidePagination(key);
 }
 
 function onRemoveQueueBtnClick(e) {
@@ -105,9 +95,12 @@ function onRemoveQueueBtnClick(e) {
   const currentCard = document.querySelector(`[data-filmid="${currentId}"]`);
   currentCard.remove();
   closeModal();
+
+  const key = 'queue';
+  hidePagination(key);
 }
 
-async function get(id) {
+export async function get(id) {
   try {
     loaderRef.style.display = 'block';
     galleryContainerRef.style.height = '350px';

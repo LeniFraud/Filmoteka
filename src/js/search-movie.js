@@ -1,9 +1,5 @@
-//! make the same instance of API class for search and trending instead of making new insance of class
-//! import pagination instance and sesttings of it (in options)
 import { theMovieAPI } from './movies-markup';
 import { instance, options } from './pagination';
-
-import TheMovieAPI from './movies-api';
 import { createMarkup, makeGenresList } from './cards-markup';
 
 const searchFormEl = document.querySelector('.header__form');
@@ -26,6 +22,7 @@ const onSearchFormSubmit = async event => {
 
     if (data.results.length === 0) {
       event.target.reset();
+      instance.setTotalItems(data.results.length);
       message.classList.remove('visually-hidden');
       return;
     }
@@ -41,11 +38,11 @@ const onSearchFormSubmit = async event => {
 
     // event.target.reset();
 
-    //! move pagination instance from selected =>to the first page on the new search
+    //move pagination instance from selected =>to the first page on the new search
     instance.movePageTo(1);
     options.page = 1;
 
-    //!change totalItems quantity
+    //change totalItems quantity
     instance.setTotalItems(data.total_results);
     options.totalItems = data.total_results;
   } catch (err) {
