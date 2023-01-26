@@ -54,7 +54,7 @@ export function getMovieId(target) {
   return movieCard.dataset.filmid;
 }
 
-function closeModal() {
+export function closeModal() {
   document.body.classList.remove('no-scroll');
   refs.modal.classList.add('is-hidden');
   clearBackdropListeners();

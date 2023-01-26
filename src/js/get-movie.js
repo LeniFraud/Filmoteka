@@ -2,6 +2,7 @@ import TheMovieAPI from './movies-api';
 import { makeGenresList } from './cards-markup';
 import { getMovieId } from './modal';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { closeModal } from './modal';
 
 Notify.init({
   position: 'center-top',
@@ -15,6 +16,10 @@ const theMovieAPI = new TheMovieAPI();
 const watchedBtn = document.querySelector('.watched');
 const queueBtn = document.querySelector('.queue');
 const container = document.querySelector('.gallery');
+const removeWatchedBtnRef = document.querySelector('.js-watched-btn');
+const removeQueueBtnRef = document.querySelector('.js-queue-btn');
+const loaderRef = document.querySelector('.loader');
+const galleryContainerRef = document.querySelector('.movies-gallery');
 
 async function onWatchedBtn() {
   watchedBtn.classList.add('active');
@@ -27,7 +32,7 @@ async function onWatchedBtn() {
   if (moviesArray === null || moviesArray.length === 0) {
     Notify.failure('You don`t have any watched film');
     container.innerHTML = 'Your watchlist is empty. Please add some film.';
-    return
+    return;
   }
 
   moviesArray.map(film => {
@@ -48,10 +53,8 @@ function onWatchedBtnSubmit() {
   if (moviesArray === null || moviesArray.length === 0) {
     Notify.failure('You don`t have any watched film');
     container.innerHTML = 'Your watchlist is empty. Please add some film.';
-    return
+    return;
   }
-
-
   moviesArray.map(film => {
     get(film);
   });
@@ -70,7 +73,7 @@ const onQueueBtnSubmit = async event => {
   if (moviesArray === null || moviesArray.length === 0) {
     Notify.failure('You don`t have any film in your queue');
     container.innerHTML = 'Your queue is empty. Please add some film.';
-    return
+    return;
   }
 
   moviesArray.map(film => {
@@ -81,18 +84,46 @@ const onQueueBtnSubmit = async event => {
 watchedBtn.addEventListener('click', onWatchedBtnSubmit);
 queueBtn.addEventListener('click', onQueueBtnSubmit);
 
+removeWatchedBtnRef.addEventListener('click', onRemoveWatchedBtnClick);
+removeQueueBtnRef.addEventListener('click', onRemoveQueueBtnClick);
+
+function onRemoveWatchedBtnClick(e) {
+  if (watchedBtn.disabled !== true) {
+    return;
+  }
+  const currentId = e.target.closest('.modal-backdrop').dataset.filmid;
+  const currentCard = document.querySelector(`[data-filmid="${currentId}"]`);
+  currentCard.remove();
+  closeModal();
+}
+
+function onRemoveQueueBtnClick(e) {
+  if (queueBtn.disabled !== true) {
+    return;
+  }
+  const currentId = e.target.closest('.modal-backdrop').dataset.filmid;
+  const currentCard = document.querySelector(`[data-filmid="${currentId}"]`);
+  currentCard.remove();
+  closeModal();
+}
+
 async function get(id) {
   try {
+    loaderRef.style.display = 'block';
+    galleryContainerRef.style.height = '350px';
     const result = await theMovieAPI.fetchOneFilm(id);
-    console.log(result.data);
+    // console.log(result.data);
     container.insertAdjacentHTML('beforeend', createMarkup(result.data));
   } catch (error) {
     console.log(error);
+  } finally {
+    loaderRef.style.display = 'none';
+    galleryContainerRef.style.height = 'auto';
   }
 }
 
-function prepareGenres(genres){
-  return genres.map(({name}) => name )
+function prepareGenres(genres) {
+  return genres.map(({ name }) => name);
 }
 
 function createMarkup(movie) {
