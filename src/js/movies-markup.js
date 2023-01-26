@@ -3,13 +3,12 @@ import { createMarkup } from './cards-markup';
 
 const container = document.querySelector('.gallery');
 export const theMovieAPI = new TheMovieAPI();
-const loader = document.querySelector(".loader");
+const loader = document.querySelector('.loader');
 const galleryContainer = document.querySelector('.movies-gallery');
-
 
 export async function getData() {
   try {
-    loader.style.display = "block";
+    loader.style.display = 'block';
     galleryContainer.style.height = '350px';
     const movieInfo = await theMovieAPI.fetchTrendingFilms();
     const genres = await theMovieAPI.getGenres();
@@ -21,11 +20,9 @@ export async function getData() {
     container.innerHTML = createMarkup(movieInfo.results);
   } catch (error) {
     console.log(error);
-  }
-  finally{
+  } finally {
     loader.style.display = 'none';
     galleryContainer.style.height = 'auto';
   }
 }
 getData();
-
