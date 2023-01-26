@@ -55,7 +55,6 @@ function onWatchedBtnSubmit() {
     container.innerHTML = 'Your watchlist is empty. Please add some film.';
     return;
   }
-
   moviesArray.map(film => {
     get(film);
   });
