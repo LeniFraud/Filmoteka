@@ -33,7 +33,7 @@ const container = document.querySelector('.gallery');
 
 export function renderFirstPage(key) {
   const moviesArray = JSON.parse(localStorage.getItem(key));
-  console.log(moviesArray[23]);
+  // console.log(moviesArray[23]);
 
   if (!moviesArray) {
     key === 'watched' ? errorMessageWatched() : errorMessageQueue();
@@ -49,7 +49,7 @@ export function renderFirstPage(key) {
   const instanceLibrary = new Pagination(paginationLibrary, options);
 
   if (moviesArray.length > 20) {
-    console.log(Math.ceil(moviesArray.length / 20));
+    // console.log(Math.ceil(moviesArray.length / 20));
 
     if (Math.ceil(moviesArray.length / 20) < 5) {
       instanceLibrary._options.visiblePages = Math.ceil(
