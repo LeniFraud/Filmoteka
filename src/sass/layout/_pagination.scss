@@ -1,18 +1,29 @@
-.tui-pagination .tui-page-btn {
-  padding-top: 13px;
-
+.tui-pagination .tui-page-btn,
+.tui-page-btn {
   @include mobile {
+    padding-top: 8px;
+    padding-bottom: 8px;
     width: 30px;
     height: 30px;
   }
-  width: 40px;
-  height: 40px;
-
+  @include tablet {
+    padding-top: 13px;
+    padding-bottom: 11px;
+    width: 40px;
+    height: 40px;
+  }
   font-weight: 500;
-  line-height: 1.33;
+  // line-height: 1.33;
   color: var(--basic-text-color);
   border: none;
   border-radius: 5px;
+}
+
+.tui-pagination .tui-first,
+.tui-pagination .tui-next,
+.tui-pagination .tui-prev,
+.tui-pagination .tui-last {
+  padding-top: 8px;
 }
 
 .tui-pagination .tui-is-selected,
