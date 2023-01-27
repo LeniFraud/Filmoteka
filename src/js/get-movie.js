@@ -42,18 +42,6 @@ function onWatchedBtnSubmit() {
 
   const key = 'watched';
   renderFirstPage(key);
-/*
-  const moviesArray = JSON.parse(localStorage.getItem('watched'));
-
-  if (moviesArray === null || moviesArray.length === 0) {
-    Notify.failure('You don`t have any watched film');
-    container.innerHTML = 'Your watchlist is empty. Please add some film.';
-    return;
-  }
-  moviesArray.map(film => {
-    get(film);
-  });
-*/
 }
 
 const onQueueBtnSubmit = async event => {
@@ -102,6 +90,7 @@ function onRemoveQueueBtnClick(e) {
 
 export async function get(id) {
   try {
+    // console.log(id);
     loaderRef.style.display = 'block';
     galleryContainerRef.style.height = '350px';
     const result = await theMovieAPI.fetchOneFilm(id);

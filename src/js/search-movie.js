@@ -20,6 +20,7 @@ const onSearchFormSubmit = async event => {
     const data = await theMovieAPI.fetchSearchFilms();
     const genres = await theMovieAPI.getGenres();
 
+    instance.setTotalItems(data.total_results);
     if (data.results.length === 0) {
       event.target.reset();
       instance.setTotalItems(data.results.length);
