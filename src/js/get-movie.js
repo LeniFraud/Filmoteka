@@ -90,6 +90,7 @@ function onRemoveQueueBtnClick(e) {
 
 export async function get(id) {
   try {
+    // console.log(id);
     loaderRef.style.display = 'block';
     galleryContainerRef.style.height = '350px';
     const result = await theMovieAPI.fetchOneFilm(id);
