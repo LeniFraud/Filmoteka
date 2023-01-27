@@ -1,27 +1,3 @@
-// // import { theMovieAPI } from './movies-markup';
-
-// const pagination = document.querySelector('.tui-pagination-container');
-
-// const instanceLib = new Pagination(container, options);
-
-// const watchedFilms = localStorage.getItem('watched');
-// const watchedQuantity = JSON.parse(watchedFilms).length;
-
-// function makePaginationLib() {
-//   options.totalItems = watchedQuantity;
-//   instanceLib.setTotalItems(watchedQuantity);
-
-//   if (watchedQuantity > 20) {
-//     pagination.classList.remove('visually-hidden');
-//   }
-// }
-
-// makePaginationLib();
-
-// console.log(JSON.parse(watchedFilms).length);
-// console.log('tui-pagination-container-library');
-// location.pathname === '/library.html';
-
 import Pagination from 'tui-pagination';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { get, watchedBtn, queueBtn } from './get-movie';
