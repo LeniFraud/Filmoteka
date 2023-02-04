@@ -42,6 +42,7 @@ function onWatchedBtnSubmit() {
 
   const key = 'watched';
   renderFirstPage(key);
+
 /*
   const moviesArray = JSON.parse(localStorage.getItem('watched'));
 
@@ -54,6 +55,7 @@ function onWatchedBtnSubmit() {
     get(film);
   });
 */
+
 }
 
 const onQueueBtnSubmit = async event => {
@@ -102,6 +104,7 @@ function onRemoveQueueBtnClick(e) {
 
 export async function get(id) {
   try {
+    // console.log(id);
     loaderRef.style.display = 'block';
     galleryContainerRef.style.height = '350px';
     const result = await theMovieAPI.fetchOneFilm(id);

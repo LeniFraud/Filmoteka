@@ -1,27 +1,3 @@
-// // import { theMovieAPI } from './movies-markup';
-
-// const pagination = document.querySelector('.tui-pagination-container');
-
-// const instanceLib = new Pagination(container, options);
-
-// const watchedFilms = localStorage.getItem('watched');
-// const watchedQuantity = JSON.parse(watchedFilms).length;
-
-// function makePaginationLib() {
-//   options.totalItems = watchedQuantity;
-//   instanceLib.setTotalItems(watchedQuantity);
-
-//   if (watchedQuantity > 20) {
-//     pagination.classList.remove('visually-hidden');
-//   }
-// }
-
-// makePaginationLib();
-
-// console.log(JSON.parse(watchedFilms).length);
-// console.log('tui-pagination-container-library');
-// location.pathname === '/library.html';
-
 import Pagination from 'tui-pagination';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { get, watchedBtn, queueBtn } from './get-movie';
@@ -51,6 +27,7 @@ export function renderFirstPage(key) {
   if (moviesArray.length > 20) {
     // console.log(Math.ceil(moviesArray.length / 20));
 
+
     if (Math.ceil(moviesArray.length / 20) < 5) {
       instanceLibrary._options.visiblePages = Math.ceil(
         moviesArray.length / 20
@@ -62,38 +39,43 @@ export function renderFirstPage(key) {
     for (let i = 0; i < page * 20; i += 1) {
       get(moviesArray[i]);
     }
+
+    instanceLibrary.on('afterMove', changePage);
+
     return;
   } else {
     moviesArray.map(film => {
       get(film);
     });
   }
-  instanceLibrary.on('afterMove', changePage);
+
 }
-paginationLibrary.addEventListener('click', changePage);
+
 function changePage(eventData) {
   window.scrollTo({
     top: 0,
     behavior: 'smooth',
   });
-  // const page = eventData.page;
 
-  // let key;
-  // watchedBtn.classList.contains('active') ? (key = 'watched') : 'queue';
-  // console.log(page);
-  // const totalPages = Math.ceil(
-  //   JSON.parse(localStorage.getItem(key)).length / 20
-  // );
-  // console.log(totalPages);
-  // console.log(key);
-  // let startItem = 0;
-  // if (page !== 1 && page <= totalPages) {
-  //   return (startItem = (page - 1) * 20 + 1);
+  const page = eventData.page;
+  console.log(page);
+
+  container.innerHTML = '';
+  let key;
+  watchedBtn.classList.contains('active') ? (key = 'watched') : (key = 'queue');
+  const moviesArray = JSON.parse(localStorage.getItem(key));
+
+  const totalPages = Math.ceil(moviesArray.length / 20);
+
+  let startItem = (page - 1) * 20;
+
   // }
-  // for (let i = startItem; i < page * 20 || i < totalItems; i += 1) {
-  //   get(moviesArray[i]);
-  // }
-  // return;
+  for (let i = startItem; i < page * 20 && i < moviesArray.length; i += 1) {
+    get(moviesArray[i]);
+    console.log(moviesArray[i]);
+  }
+  return;
+
 }
 
 function errorMessageWatched(moviesArray) {
