@@ -25,7 +25,8 @@ export function renderFirstPage(key) {
   const instanceLibrary = new Pagination(paginationLibrary, options);
 
   if (moviesArray.length > 20) {
-    console.log(Math.ceil(moviesArray.length / 20));
+    // console.log(Math.ceil(moviesArray.length / 20));
+
 
     if (Math.ceil(moviesArray.length / 20) < 5) {
       instanceLibrary._options.visiblePages = Math.ceil(
@@ -38,13 +39,16 @@ export function renderFirstPage(key) {
     for (let i = 0; i < page * 20; i += 1) {
       get(moviesArray[i]);
     }
+
     instanceLibrary.on('afterMove', changePage);
+
     return;
   } else {
     moviesArray.map(film => {
       get(film);
     });
   }
+
 }
 
 function changePage(eventData) {
@@ -52,6 +56,7 @@ function changePage(eventData) {
     top: 0,
     behavior: 'smooth',
   });
+
   const page = eventData.page;
   console.log(page);
 
@@ -70,6 +75,7 @@ function changePage(eventData) {
     console.log(moviesArray[i]);
   }
   return;
+
 }
 
 function errorMessageWatched(moviesArray) {
